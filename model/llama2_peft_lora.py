@@ -1,5 +1,5 @@
-from huggingface_hub import notebook_login
-notebook_login()
+from huggingface_hub import login
+login("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")
 
 from datasets import load_dataset
 import torch
@@ -8,9 +8,8 @@ from peft import LoraConfig
 from trl import SFTTrainer
 
 # I need to upload the dataset to HF for this to work
-dataset_name = "<your_hf_dataset>"
+dataset_name = "konsgavriil/xarlm_initial.jsonl"
 dataset = load_dataset(dataset_name, split="train")
-
 base_model_name = "meta-llama/Llama-2-7b-hf"
 
 bnb_config = BitsAndBytesConfig(
@@ -73,12 +72,3 @@ trainer.train()
 import os
 output_dir = os.path.join(output_dir, "final_checkpoint")
 trainer.model.save_pretrained(output_dir)
-
-from peft import AutoPeftModelForCausalLM
-
-model = AutoPeftModelForCausalLM.from_pretrained(output_dir, device_map=device_map, torch_dtype=torch.bfloat16)
-text = "..."
-inputs = tokenizer(text, return_tensors="pt").to(device)
-outputs = model.generate(input_ids=inputs["input_ids"].to("cuda"), attention_mask=inputs["attention_mask"], max_new_tokens=50, pad_token_id=tokenizer.eos_token_id)
-
-print(tokenizer.decode(outputs[0], skip_special_tokens=True))
