@@ -18,12 +18,10 @@ bnb_config = BitsAndBytesConfig(
     bnb_4bit_compute_dtype=torch.float16,
 )
 
-device_map = {"": 0}
-
 base_model = AutoModelForCausalLM.from_pretrained(
     base_model_name,
     quantization_config=bnb_config,
-    device_map=device_map,
+    device_map="auto",
     trust_remote_code=True,
     use_auth_token=True
 )
@@ -44,7 +42,7 @@ peft_config = LoraConfig(
 tokenizer = AutoTokenizer.from_pretrained(base_model_name, trust_remote_code=True)
 tokenizer.pad_token = tokenizer.eos_token
 
-output_dir = "./results"
+output_dir = "/mnt/xarlm/results"
 
 training_args = TrainingArguments(
     output_dir=output_dir,
