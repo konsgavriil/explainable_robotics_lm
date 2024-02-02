@@ -1,26 +1,28 @@
 from huggingface_hub import login
 login("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")
+import wandb
+wandb.login(key="e02f877bc61d440081963d6d9507c438fc3f32f1")
 
 from datasets import load_dataset
 import torch
 from transformers import AutoModelForCausalLM, BitsAndBytesConfig, AutoTokenizer, TrainingArguments
 from peft import LoraConfig
-from trl import SFTTrainer
+from trl import SFTTrainer, DataCollatorForCompletionOnlyLM
 
 # I need to upload the dataset to HF for this to work
-dataset_name = "konsgavriil/xarlm_initial.jsonl"
-dataset = load_dataset(dataset_name, split="train")
+dataset_name = "konsgavriil/xarlm"
+dataset = load_dataset(dataset_name)
 base_model_name = "meta-llama/Llama-2-7b-hf"
 
-bnb_config = BitsAndBytesConfig(
-    load_in_4bit=True,
-    bnb_4bit_quant_type="nf4",
-    bnb_4bit_compute_dtype=torch.float16,
-)
+# bnb_config = BitsAndBytesConfig(
+#     load_in_4bit=True,
+#     bnb_4bit_quant_type="nf4",
+#     bnb_4bit_compute_dtype=torch.float16,
+# )
 
 base_model = AutoModelForCausalLM.from_pretrained(
     base_model_name,
-    quantization_config=bnb_config,
+    # quantization_config=bnb_config,
     device_map="auto",
     trust_remote_code=True,
     use_auth_token=True
@@ -30,6 +32,9 @@ base_model.config.use_cache = False
 
 # More info: https://github.com/huggingface/transformers/pull/24906
 base_model.config.pretraining_tp = 1 
+
+# Set the torch_dtype for the model
+base_model = base_model.to(torch.bfloat16)
 
 peft_config = LoraConfig(
     lora_alpha=16,
@@ -41,6 +46,11 @@ peft_config = LoraConfig(
 
 tokenizer = AutoTokenizer.from_pretrained(base_model_name, trust_remote_code=True)
 tokenizer.pad_token = tokenizer.eos_token
+
+instruction_template = "### Instruction:"
+response_template = "### Response:"
+collator = DataCollatorForCompletionOnlyLM(instruction_template=instruction_template, response_template=response_template, tokenizer=tokenizer, mlm=False)
+
 
 output_dir = "/mnt/xarlm/results"
 
@@ -57,15 +67,23 @@ max_seq_length = 512
 
 trainer = SFTTrainer(
     model=base_model,
-    train_dataset=dataset,
+    # train_dataset=dataset["train"],
+    eval_dataset=dataset["validation"],
     peft_config=peft_config,
     dataset_text_field="text",
+    data_collator=collator,
     max_seq_length=max_seq_length,
     tokenizer=tokenizer,
     args=training_args,
 )
 
-trainer.train()
+# trainer.train()
+
+# Evaluate on the validation set
+results = trainer.evaluate()
+
+# Print validation loss
+print("Validation Loss:", results["eval_loss"])
 
 import os
 output_dir = os.path.join(output_dir, "final_checkpoint")

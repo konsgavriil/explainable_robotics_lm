@@ -2,12 +2,12 @@ import json
 import pandas as pd
 
 # Specify the filename
-jsonl_filename = "example.jsonl"
+jsonl_filename = "validation.jsonl"
 data = []
-df = pd.read_csv("data/initial_llm_training_set.csv")
+df = pd.read_csv("persistance/moos_ivp_csv/causal_validation_dataset.csv")
 
 for index, row in df.iterrows():
-        data.append(f"Below is a query that asks for a causal explanation based on the provided vehicle state representation... ### User query: {row['user_query']}, Input: {row['representation']}, Response: {row['explanation']}")
+        data.append(f"### Instruction: Below is a query that asks for a causal explanation based on the provided vehicle state representation. User query: {row['user_query']}, Representation: {row['representation']}, ### Response: {row['explanation']}")
 
 # # Write data to the JSONL file
 with open(jsonl_filename, 'w') as file:
