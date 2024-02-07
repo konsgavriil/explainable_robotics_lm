@@ -10,7 +10,7 @@ from peft import LoraConfig
 from trl import SFTTrainer, DataCollatorForCompletionOnlyLM
 
 # I need to upload the dataset to HF for this to work
-dataset_name = "konsgavriil/xarlm"
+dataset_name = "konsgavriil/xarlm_counterfactual"
 dataset = load_dataset(dataset_name)
 base_model_name = "meta-llama/Llama-2-7b-hf"
 
@@ -52,7 +52,7 @@ response_template = "### Response:"
 collator = DataCollatorForCompletionOnlyLM(instruction_template=instruction_template, response_template=response_template, tokenizer=tokenizer, mlm=False)
 
 
-output_dir = "/mnt/xarlm/results"
+output_dir = "/mnt/xarlm/results/counterfactual"
 
 training_args = TrainingArguments(
     output_dir=output_dir,
@@ -60,6 +60,7 @@ training_args = TrainingArguments(
     gradient_accumulation_steps=4,
     learning_rate=2e-4,
     logging_steps=10,
+    eval_steps=10,
     max_steps=500
 )
 
@@ -67,7 +68,7 @@ max_seq_length = 512
 
 trainer = SFTTrainer(
     model=base_model,
-    # train_dataset=dataset["train"],
+    train_dataset=dataset["train"],
     eval_dataset=dataset["validation"],
     peft_config=peft_config,
     dataset_text_field="text",
@@ -77,7 +78,7 @@ trainer = SFTTrainer(
     args=training_args,
 )
 
-# trainer.train()
+trainer.train()
 
 # Evaluate on the validation set
 results = trainer.evaluate()
@@ -86,5 +87,5 @@ results = trainer.evaluate()
 print("Validation Loss:", results["eval_loss"])
 
 import os
-output_dir = os.path.join(output_dir, "final_checkpoint")
+output_dir = os.path.join(output_dir, "final_checkpoint_cf")
 trainer.model.save_pretrained(output_dir)

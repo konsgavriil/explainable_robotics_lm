@@ -19,9 +19,9 @@ class DataProcessor:
         train_df, temp_df = train_test_split(self.df, test_size=1 - train_ratio, random_state=42)
         validation_df, test_df = train_test_split(temp_df, test_size=test_ratio / (test_ratio + validation_ratio), random_state=42)
         # Save the split datasets into separate CSV files
-        train_df.to_csv("persistance/moos_ivp_csv/complete_datasets/counterfactual/counterfactual_train_dataset.csv", index=False)
-        validation_df.to_csv("persistance/moos_ivp_csv/complete_datasets/counterfactual/counterfactual_validation_dataset.csv", index=False)
-        test_df.to_csv("persistance/moos_ivp_csv/complete_datasets/counterfactual/counterfactual_test_dataset.csv", index=False)
+        train_df.to_csv("persistance/moos_ivp_csv/complete_datasets/contrastive/contrastive_train_dataset.csv", index=False)
+        validation_df.to_csv("persistance/moos_ivp_csv/complete_datasets/contrastive/contrastive_validation_dataset.csv", index=False)
+        test_df.to_csv("persistance/moos_ivp_csv/complete_datasets/contrastive/contrastive_test_dataset.csv", index=False)
 
     def separate_annotations(self):
         for index, row in self.df.iterrows():
@@ -36,14 +36,14 @@ class DataProcessor:
 
             self.df.at[index, "explanation"] = explanation
             self.df.at[index, "user_query"] = user_query
-            self.df.at[index, "state_permutation"] = permutation
+            self.df.at[index, "behaviour_permutation"] = permutation
 
-        self.save_dataset("persistance/moos_ivp_csv/s1_alpha/s1_alpha_dataset_cf3.csv")
+        self.save_dataset("persistance/moos_ivp_csv/s1_alpha/s1_alpha_dataset_contrast3.csv")
 
     def save_dataset(self, path):
         self.df.to_csv(path, index=False)
 
 
-dp = DataProcessor("persistance/moos_ivp_csv/complete_datasets/counterfactual/counterfactual_dataset.csv")
+dp = DataProcessor("persistance/moos_ivp_csv/complete_datasets/contrastive/contrastive_dataset.csv")
 dp.shuffle_split_dataset()
 # dp.separate_annotations()
