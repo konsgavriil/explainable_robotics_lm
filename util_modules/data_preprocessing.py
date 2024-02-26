@@ -43,7 +43,30 @@ class DataProcessor:
     def save_dataset(self, path):
         self.df.to_csv(path, index=False)
 
+    def balance_mixed_dataset(self):
+        num_entries = 0
+        for index, row in self.df.iterrows():
+            if row["user_query"].startswith("Generate"):
+                num_entries += 1 
+        causal_df = self.df[self.df["user_query"].str.startswith("Generate")]
+        counterfactual_df = self.df[self.df["user_query"].str.startswith("What")]
+        contrastive_df = self.df[self.df["user_query"].str.startswith("Why")]
+        df1 = causal_df.sample(n=num_entries)
+        df2 = counterfactual_df.sample(n=num_entries)
+        df3 = contrastive_df.sample(n=num_entries)
+        
+        df1["order"] = range(0, len(df1))
+        df2["order"] = range(0, len(df2))
+        df3["order"] = range(0, len(df3))
 
-dp = DataProcessor("persistance/moos_ivp_csv/complete_datasets/contrastive/contrastive_dataset.csv")
-dp.shuffle_split_dataset()
+        balanced_df = pd.concat([df1, df2, df3])
+
+        sorted_df = balanced_df.sort_values(by='order')
+        sorted_df = sorted_df.drop(columns=['order'])
+        sorted_df = sorted_df.reset_index(drop=True)
+        sorted_df.to_csv("persistance/moos_ivp_csv/complete_datasets/mixed/balanced_test_dataset.csv")
+
+dp = DataProcessor("persistance/moos_ivp_csv/complete_datasets/mixed/test_dataset.csv")
+# dp.shuffle_split_dataset()
 # dp.separate_annotations()
+dp.balance_mixed_dataset()

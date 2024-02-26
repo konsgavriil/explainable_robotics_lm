@@ -4,6 +4,8 @@ WORKDIR /workspace
 
 COPY llama2_peft_lora.py /workspace/xarlm/llama2_peft_lora.py
 
+COPY environment.yml /workspace/environment.yml
+
 SHELL ["/bin/bash", "-c"]
 
 # Install Conda
@@ -21,16 +23,8 @@ ENV PATH /opt/conda/bin:$PATH
 RUN conda init
 
 # Create Conda Environment
-RUN conda create -n xarlm python=3.11
+RUN conda env create -f environment.yml
+# RUN conda create -n xarlm python=3.11
 
-RUN echo "source activate xarlm" > ~/.bashrc
+RUN echo "source activate xarlm" >> ~/.bashrc
 ENV PATH /opt/conda/envs/xarlm/bin:$PATH
-
-# RUN conda activate xarlm
-
-RUN pip install transformers\
-&& pip install datasets \
-&& pip install peft \
-&& pip install trl \
-&& pip install wandb \
-&& pip install bitsandbytes \

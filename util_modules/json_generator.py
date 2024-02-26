@@ -2,17 +2,20 @@ import json
 import pandas as pd
 
 # Specify the filename
-jsonl_filename = "contrast_validation.jsonl"
+jsonl_filename = "balanced_mixed_validation_dataset.jsonl"
 data = []
-df = pd.read_csv("persistance/moos_ivp_csv/complete_datasets/contrastive/contrastive_validation_dataset.csv")
+df = pd.read_csv("persistance/moos_ivp_csv/complete_datasets/mixed/balanced_validation_dataset.csv")
 
 for index, row in df.iterrows():
         #Counterfactual
-        # data.append(f"### Instruction: Below is a what-if query that asks for an explanation and a state permutation based on the provided vehicle state representation. User query: {row['user_query']}, Representation: {row['representation']}, ### Response: Explanation: {row['explanation']}, State Permutation: {row['state_permutation']}")
+        if row["user_query"].startswith("What"):
+                data.append(f"### Instruction: Below is a what-if query that asks for an explanation and a state permutation based on the provided vehicle state representation. User query: {row['user_query']}, Representation: {row['representation']}, ### Response: Explanation: {row['explanation']}, State Permutation: {row['permutation']}")
         #Causal
-        # data.append(f"### Instruction: Below is a query that asks for a causal explanation based on the provided vehicle state representation. User query: {row['user_query']}, Representation: {row['representation']}, ### Response: {row['explanation']}")
+        elif row["user_query"].startswith("Generate"):
+                data.append(f"### Instruction: Below is a query that asks for a causal explanation based on the provided vehicle state representation. User query: {row['user_query']}, Representation: {row['representation']}, ### Response: {row['explanation']}")
         #Contrastive
-        data.append(f"### Instruction: Below is a why-not query that asks for an explanation and a behaviour permutation based on the provided vehicle state representation. User query: {row['user_query']}, Representation: {row['representation']}, ### Response: Explanation: {row['explanation']}, State Permutation: {row['behaviour_permutation']}")
+        elif row["user_query"].startswith("Why"):
+                data.append(f"### Instruction: Below is a why-not query that asks for an explanation and a behaviour permutation based on the provided vehicle state representation. User query: {row['user_query']}, Representation: {row['representation']}, ### Response: Explanation: {row['explanation']}, Behaviour Permutation: {row['permutation']}")
 
 # # Write data to the JSONL file
 with open(jsonl_filename, 'w') as file:
