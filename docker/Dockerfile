@@ -3,6 +3,8 @@ FROM nvcr.io/nvidia/pytorch:23.12-py3
 WORKDIR /workspace
 
 COPY llama2_peft_lora.py /workspace/xarlm/llama2_peft_lora.py
+COPY llama2_peft_lora_inference.py /workspace/xarlm/llama2_peft_lora_inference.py
+COPY semantic_accuracy.py /workspace/xarlm/semantic_accuracy.py
 
 COPY environment.yml /workspace/environment.yml
 

@@ -71,7 +71,7 @@ class SemanticAccuracy:
             else:
                 raise ValueError(f"Output value is out of the specified range: [0.0, 1.0]")
         
-        return {"semantic_accuracy": total_acc/len(inputs), "semantic_accuracy": total_prec/len(inputs)}
+        return {"semantic_accuracy": overall_acc/len(inputs), "semantic_precision": overall_prec/len(inputs)}
 
     def calc_spatial_score(self, input_tokens, output_tokens, total_references) -> float:
         input_spatial_tokens = input_tokens.intersection(self.spatial_ref_list)

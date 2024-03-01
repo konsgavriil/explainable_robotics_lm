@@ -1,0 +1,102 @@
+{
+    "os": "Linux-5.15.0-1050-gke-x86_64-with-glibc2.35",
+    "python": "3.9.16",
+    "heartbeatAt": "2024-02-27T11:34:26.668865",
+    "startedAt": "2024-02-27T11:34:25.517435",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "/home/dega/projects/explainable_robotics_lm/model/llama2_peft_lora_inference.py",
+    "codePathLocal": "model/llama2_peft_lora_inference.py",
+    "codePath": "model/llama2_peft_lora_inference.py",
+    "host": "erevos",
+    "username": "dega",
+    "executable": "/home/dega/miniconda3/envs/xar-language-model/bin/python",
+    "cpu_count": 6,
+    "cpu_count_logical": 12,
+    "cpu_freq": {
+        "current": 2397.44175,
+        "min": 800.0,
+        "max": 4500.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2600.0,
+            "min": 800.0,
+            "max": 4500.0
+        },
+        {
+            "current": 2600.0,
+            "min": 800.0,
+            "max": 4500.0
+        },
+        {
+            "current": 2600.0,
+            "min": 800.0,
+            "max": 4500.0
+        },
+        {
+            "current": 2600.0,
+            "min": 800.0,
+            "max": 4500.0
+        },
+        {
+            "current": 2600.0,
+            "min": 800.0,
+            "max": 4500.0
+        },
+        {
+            "current": 2600.0,
+            "min": 800.0,
+            "max": 4500.0
+        },
+        {
+            "current": 2600.0,
+            "min": 800.0,
+            "max": 4500.0
+        },
+        {
+            "current": 2600.0,
+            "min": 800.0,
+            "max": 4500.0
+        },
+        {
+            "current": 2600.0,
+            "min": 800.0,
+            "max": 4500.0
+        },
+        {
+            "current": 1572.028,
+            "min": 800.0,
+            "max": 4500.0
+        },
+        {
+            "current": 2600.0,
+            "min": 800.0,
+            "max": 4500.0
+        },
+        {
+            "current": 2600.0,
+            "min": 800.0,
+            "max": 4500.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 467.8895797729492,
+            "used": 376.5566520690918
+        }
+    },
+    "gpu": "NVIDIA GeForce GTX 1650",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce GTX 1650",
+            "memory_total": 4294967296
+        }
+    ],
+    "memory": {
+        "total": 15.256839752197266
+    }
+}

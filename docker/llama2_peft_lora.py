@@ -7,6 +7,7 @@ from peft import LoraConfig
 from datasets import load_dataset
 from huggingface_hub import login
 from trl import SFTTrainer, DataCollatorForCompletionOnlyLM
+from semantic_accuracy import SemanticAccuracy
 from transformers import AutoModelForCausalLM, BitsAndBytesConfig, AutoTokenizer, TrainingArguments
 
 login("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")
@@ -16,13 +17,18 @@ os.environ["WANDB_LOG_MODEL"] = "checkpoint"  # log all model checkpoints
 
 bleu_score = evaluate.load("bleu")
 rouge_score = evaluate.load("rouge")
+meteor_score = evaluate.load("meteor")
+nist_mt_score = evaluate.load("nist_mt")
+semantic_acc_score = SemanticAccuracy()
+ter_score = evaluate.load("ter")
+# bleurt_score = evaluate.load("bleurt", module_type="metric")
 
 def preprocess_logits_for_metrics(logits, labels):
     if isinstance(logits, tuple):
         logits = logits[0]
     return logits.argmax(dim=-1)
 
-def compute_metrics(eval_preds):
+def compute_metrics(eval_preds, input_texts):
     preds, labels = eval_preds
 
     if isinstance(preds, tuple):
@@ -44,21 +50,24 @@ def compute_metrics(eval_preds):
     decoded_preds = ["\n".join(pred.strip()) for pred in decoded_preds]
 
     decoded_labels = ["\n".join(label.strip()) for label in decoded_labels]
-    # Compute ROUGEscores
-    # result = rouge_score.compute(predictions=decoded_preds, references=decoded_labels, use_stemmer=True)
+    # Compute scores
     r_score = rouge_score.compute(predictions=decoded_preds, references=decoded_labels, use_stemmer=True)
-    b_score = bleu_score.compute(predictions=decoded_preds, references=decoded_labels)
-    result = {**r_score, **b_score}
-    # return {"BLEU": b_score, "ROUGE": r_score}
-    # Extract the median scores
-    result = {key: value * 100 for key, value in result.items()}
-    return {k: round(v, 4) for k, v in result.items()}
+    b_value = bleu_score.compute(predictions=decoded_preds, references=decoded_labels)['bleu']
+    m_score = meteor_score.compute(predictions=decoded_preds, references=decoded_labels)
+    n_score = nist_mt_score.compute(predictions=decoded_preds, references=decoded_labels)
+    sa_score = semantic_acc_score.compute(input=input_texts, output=decoded_preds)
+    t_score = ter_score.compute(predictions=decoded_preds, references=decoded_labels)
+    # brt_value = bleurt_score.compute(predictions=decoded_preds, references=decoded_labels)['scores']
+    brt_value = sum(brt_value) / len(brt_value)
+    # brt_score = {"bleurt": brt_value} 
+    b_score = {"bleu": b_value}
+    result = {**r_score, **b_score, **m_score, **n_score, **t_score, **sa_score}
+    return result
 
 # I need to upload the dataset to HF for this to work
 dataset_name = "konsgavriil/xarlm_all_types"
 dataset = load_dataset(dataset_name)
 base_model_name = "meta-llama/Llama-2-7b-hf"
-
 # bnb_config = BitsAndBytesConfig(
 #     load_in_4bit=True,
 #     bnb_4bit_quant_type="nf4",
@@ -128,7 +137,8 @@ trainer = SFTTrainer(
     max_seq_length=max_seq_length,
     tokenizer=tokenizer,
     args=training_args,
-    compute_metrics=compute_metrics,
+    compute_metrics=lambda p: compute_metrics(p, dataset["validation"]["text"]),
+    # compute_metrics=compute_metrics,
     preprocess_logits_for_metrics = preprocess_logits_for_metrics,
     # callbacks=[EarlyStoppingCallback(early_stopping_patience=10)]
 )

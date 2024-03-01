@@ -20,8 +20,6 @@ rouge_score = evaluate.load("rouge")
 meteor_score = evaluate.load("meteor")
 nist_mt_score = evaluate.load("nist_mt")
 semantic_acc_score = SemanticAccuracy()
-ter_score = evaluate.load("ter")
-bleurt_score = evaluate.load("bleurt", module_type="metric")
 
 def preprocess_logits_for_metrics(logits, labels):
     if isinstance(logits, tuple):
@@ -56,30 +54,20 @@ def compute_metrics(eval_preds, input_texts):
     m_score = meteor_score.compute(predictions=decoded_preds, references=decoded_labels)
     n_score = nist_mt_score.compute(predictions=decoded_preds, references=decoded_labels)
     sa_score = semantic_acc_score.compute(input=input_texts, output=decoded_preds)
-    t_score = ter_score.compute(predictions=decoded_preds, references=decoded_labels)
-    brt_value = bleurt_score.compute(predictions=decoded_preds, references=decoded_labels)['scores']
-    brt_value = sum(brt_value) / len(brt_value)
-    brt_score = {"bleurt": brt_value} 
+
     b_score = {"bleu": b_value}
-    result = {**r_score, **b_score, **brt_score, **m_score, **n_score, **t_score, **sa_score}
+    result = {**r_score, **b_score, **m_score, **n_score, **sa_score}
     return result
 
-# I need to upload the dataset to HF for this to work
-dataset_name = "konsgavriil/xarlm_all_types"
+dataset_name = "konsgavriil/xarlm_causal_p2"
 dataset = load_dataset(dataset_name)
 base_model_name = "meta-llama/Llama-2-7b-hf"
-# bnb_config = BitsAndBytesConfig(
-#     load_in_4bit=True,
-#     bnb_4bit_quant_type="nf4",
-#     bnb_4bit_compute_dtype=torch.float16,
-# )
 
 base_model = AutoModelForCausalLM.from_pretrained(
     base_model_name,
-    # quantization_config=bnb_config,
     device_map="auto",
     trust_remote_code=True,
-    use_auth_token=True
+    token=True
 )
 
 base_model.config.use_cache = False
@@ -99,14 +87,15 @@ peft_config = LoraConfig(
 )
 
 tokenizer = AutoTokenizer.from_pretrained(base_model_name, trust_remote_code=True)
-tokenizer.pad_token = tokenizer.eos_token
+# tokenizer.pad_token = tokenizer.eos_token
+tokenizer.add_special_tokens({'pad_token': '[PAD]'})
 
-instruction_template = "### Instruction:"
+instruction_template = "### Prompt:"
 response_template = "### Response:"
 collator = DataCollatorForCompletionOnlyLM(instruction_template=instruction_template, response_template=response_template, tokenizer=tokenizer, mlm=False)
 
 
-output_dir = "/mnt/xarlm/results/all_types"
+output_dir = "/mnt/xarlm/results/causal_p2"
 
 training_args = TrainingArguments(
     output_dir=output_dir,
@@ -126,7 +115,7 @@ training_args = TrainingArguments(
 )
 
 max_seq_length = 512
-dataset.input_texts
+
 trainer = SFTTrainer(
     model=base_model,
     train_dataset=dataset["train"],
@@ -151,5 +140,5 @@ results = trainer.evaluate()
 # Print validation loss
 print("Validation Loss:", results["eval_loss"])
 
-output_dir = os.path.join(output_dir, "final_checkpoint_all_types")
+output_dir = os.path.join(output_dir, "best_checkpoint_causal_p2")
 trainer.model.save_pretrained(output_dir)

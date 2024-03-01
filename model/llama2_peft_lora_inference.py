@@ -1,38 +1,33 @@
 import os
-import torch
 import wandb
-import evaluate
-import numpy as np
 import pandas as pd
-from peft import LoraConfig
-from datasets import load_dataset
+from tqdm import tqdm
 from huggingface_hub import login
-from trl import SFTTrainer, DataCollatorForCompletionOnlyLM
-from transformers import AutoModelForCausalLM, BitsAndBytesConfig, AutoTokenizer, TrainingArguments
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
+print("Logging in...")
 login("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")
 wandb.login(key="e02f877bc61d440081963d6d9507c438fc3f32f1")
 os.environ["WANDB_PROJECT"] = "xarlm"  # name your W&B project
 
-base_model_name = "meta-llama/Llama-2-7b-hf"
-adapter_id = "konsgavriil/xarlm_adapter_all_types"
-model = AutoModelForCausalLM.from_pretrained(
-    base_model_name,
-    device_map="auto",
-    trust_remote_code=True,
-    load_in_8bit=True,
-    use_auth_token=True
-)
-
-tokenizer = AutoTokenizer.from_pretrained(base_model_name, trust_remote_code=True)
+print("Loading model and tokenizer...")
+model_id = "meta-llama/Llama-2-7b-hf"
+peft_model_id = "konsgavriil/xarlm_adapter_all_types"
+model = AutoModelForCausalLM.from_pretrained(model_id, device_map="auto", trust_remote_code=True, use_auth_token=True)
+model.load_adapter(peft_model_id)
+tokenizer = AutoTokenizer.from_pretrained(model_id, trust_remote_code=True)
 tokenizer.pad_token = tokenizer.eos_token
-
-model.load_adapter(adapter_id)
-model.enable_adapters()
-
-df = pd.read_csv("mixed_test_dataset.csv")
+print("Adapter and tokenizer have been loaded!")
+df = pd.read_csv("/workspace/xarlm/test_dataset.csv")
+random_entries = df.sample(n=10)
+new_df = pd.DataFrame(random_entries)
+print("Test set has been loaded!")
 output_dict = {"query": [], "representation": [], "response": []}
-for index, row in df.iterrows():
+
+print("Starting with loop...")
+i = 0
+for index, row in new_df.iterrows(): 
+    print("Loop:", i)
     text = f"User query: {row['user_query']}, Representation: {row['representation']}"
     inputs = tokenizer(text, return_tensors="pt")
     inputs.to("cuda")
@@ -41,12 +36,11 @@ for index, row in df.iterrows():
     output_dict["query"].append(row['user_query'])
     output_dict["representation"].append(row['representation'])
     output_dict["response"].append(response)
+    i += 1
 
-
-# Convert the DataFrame into a W&B Table
-all_types_inference_table = wandb.Table(dataframe=df)
-iris_table_artifact = wandb.Artifact("all_types_inference_artifact", type="dataset")
-iris_table_artifact.add(all_types_inference_table, "all_types_inference_table")
-df.to_csv('mixed_test_with_responses.csv', index=False)
-# Log the raw csv file within an artifact to preserve our data
-iris_table_artifact.add_file("mixed_test_with_responses.csv")
+print("Saving inferenced dataframe...")
+inferenced_df = pd.DataFrame.from_dict(output_dict)
+print("Saving wandb log...")
+wandb.init(project="xarlm", name="xarlm_all_types_inference")
+wandb.log({"dataset": wandb.Table(dataframe=inferenced_df)})
+wandb.finish()
