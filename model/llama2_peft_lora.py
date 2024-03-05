@@ -12,9 +12,9 @@ from transformers import AutoModelForCausalLM, BitsAndBytesConfig, AutoTokenizer
 
 login("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")
 wandb.login(key="e02f877bc61d440081963d6d9507c438fc3f32f1")
-os.environ["WANDB_PROJECT"] = "xarlm"  # name your W&B project
+dataset_name = "konsgavriil/xarlm_causal_p1"
 os.environ["WANDB_LOG_MODEL"] = "checkpoint"  # log all model checkpoints
-
+wandb.init(project="xarlm", name=dataset_name)
 bleu_score = evaluate.load("bleu")
 rouge_score = evaluate.load("rouge")
 meteor_score = evaluate.load("meteor")
@@ -53,13 +53,12 @@ def compute_metrics(eval_preds, input_texts):
     b_value = bleu_score.compute(predictions=decoded_preds, references=decoded_labels)['bleu']
     m_score = meteor_score.compute(predictions=decoded_preds, references=decoded_labels)
     n_score = nist_mt_score.compute(predictions=decoded_preds, references=decoded_labels)
-    sa_score = semantic_acc_score.compute(input=input_texts, output=decoded_preds)
+    sa_score = semantic_acc_score.compute(input_texts, decoded_preds)
 
     b_score = {"bleu": b_value}
     result = {**r_score, **b_score, **m_score, **n_score, **sa_score}
     return result
 
-dataset_name = "konsgavriil/xarlm_causal_p2"
 dataset = load_dataset(dataset_name)
 base_model_name = "meta-llama/Llama-2-7b-hf"
 
@@ -87,15 +86,14 @@ peft_config = LoraConfig(
 )
 
 tokenizer = AutoTokenizer.from_pretrained(base_model_name, trust_remote_code=True)
-# tokenizer.pad_token = tokenizer.eos_token
-tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+tokenizer.pad_token = tokenizer.eos_token
 
-instruction_template = "### Prompt:"
+instruction_template = "### Instruction:"
 response_template = "### Response:"
 collator = DataCollatorForCompletionOnlyLM(instruction_template=instruction_template, response_template=response_template, tokenizer=tokenizer, mlm=False)
 
 
-output_dir = "/mnt/xarlm/results/causal_p2"
+output_dir = "/mnt/xarlm/results/{}".format(dataset_name)
 
 training_args = TrainingArguments(
     output_dir=output_dir,
@@ -103,14 +101,12 @@ training_args = TrainingArguments(
     gradient_accumulation_steps=4,
     learning_rate=2e-4,
     logging_steps=10,
-    eval_steps=10,
-    max_steps=2000,
+    eval_steps=100,
+    max_steps=1500,
     report_to="wandb", 
     evaluation_strategy="steps",
     do_eval=True,
-    warmup_steps=int(len(dataset["train"]) / 8),
     greater_is_better=True,
-    # metric_for_best_model='eval_loss',
     load_best_model_at_end=True
 )
 
@@ -127,9 +123,7 @@ trainer = SFTTrainer(
     tokenizer=tokenizer,
     args=training_args,
     compute_metrics=lambda p: compute_metrics(p, dataset["validation"]["text"]),
-    # compute_metrics=compute_metrics,
     preprocess_logits_for_metrics = preprocess_logits_for_metrics,
-    # callbacks=[EarlyStoppingCallback(early_stopping_patience=10)]
 )
 
 trainer.train()
@@ -140,5 +134,6 @@ results = trainer.evaluate()
 # Print validation loss
 print("Validation Loss:", results["eval_loss"])
 
-output_dir = os.path.join(output_dir, "best_checkpoint_causal_p2")
+output_dir = os.path.join(output_dir, dataset_name)
 trainer.model.save_pretrained(output_dir)
+wandb.finish()

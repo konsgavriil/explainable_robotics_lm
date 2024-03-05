@@ -2,9 +2,9 @@ import json
 import pandas as pd
 
 # Specify the filename
-jsonl_filename = "counterfactual_validation_dataset.jsonl"
+jsonl_filename = "validation.jsonl"
 data = []
-df = pd.read_csv("persistance/moos_ivp_csv/complete_datasets/counterfactual/counterfactual_validation_dataset.csv")
+df = pd.read_csv("persistance/moos_ivp_csv/complete_datasets/mixed/balanced_validation_dataset.csv")
 
 for index, row in df.iterrows():
         #Counterfactual
@@ -16,9 +16,9 @@ for index, row in df.iterrows():
 
         #Causal
         elif row["user_query"].startswith("Generate"):
-                # data.append(f"### Instruction: User Query: {row['user_query']} Representation: {row['representation']} ### Response: Explanation: {row['explanation']}")
+                data.append(f"### Instruction: User Query: {row['user_query']} Representation: {row['representation']} ### Response: Explanation: {row['explanation']}")
                 # data.append(f"### Instruction: Below is a query that asks for a causal explanation based on the provided vehicle state representation. User query: {row['user_query']}, Representation: {row['representation']}, ### Response: Explanation: {row['explanation']}")
-                data.append(f"### Instruction: Generate a single causal explanation using the following user query and vehicle state representation: User Query: {row['user_query']} Representation: {row['representation']} ### Response: Explanation: {row['explanation']}") 
+                # data.append(f"### Instruction: Generate a single causal explanation using the following user query and vehicle state representation: User Query: {row['user_query']} Representation: {row['representation']} ### Response: Explanation: {row['explanation']}") 
                 # data.append(f"### Instruction: Generate a single causal explanation that justifies the vehicle's current behaviour using the following user query and vehicle state representation: User Query: {row['user_query']} Representation: {row['representation']} ### Response: Explanation: {row['explanation']}") 
 
         #Contrastive
