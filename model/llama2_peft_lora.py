@@ -8,17 +8,16 @@ from datasets import load_dataset
 from huggingface_hub import login
 from trl import SFTTrainer, DataCollatorForCompletionOnlyLM
 from semantic_accuracy import SemanticAccuracy
-from transformers import AutoModelForCausalLM, BitsAndBytesConfig, AutoTokenizer, TrainingArguments
+from transformers import AutoModelForCausalLM, BitsAndBytesConfig, AutoTokenizer, TrainingArguments, EarlyStoppingCallback
 
 login("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")
 wandb.login(key="e02f877bc61d440081963d6d9507c438fc3f32f1")
-dataset_name = "konsgavriil/xarlm_causal_p1"
+dataset_name = "konsgavriil/xarlm_causal_p5"
 os.environ["WANDB_LOG_MODEL"] = "checkpoint"  # log all model checkpoints
 wandb.init(project="xarlm", name=dataset_name)
 bleu_score = evaluate.load("bleu")
 rouge_score = evaluate.load("rouge")
 meteor_score = evaluate.load("meteor")
-nist_mt_score = evaluate.load("nist_mt")
 semantic_acc_score = SemanticAccuracy()
 
 def preprocess_logits_for_metrics(logits, labels):
@@ -52,30 +51,37 @@ def compute_metrics(eval_preds, input_texts):
     r_score = rouge_score.compute(predictions=decoded_preds, references=decoded_labels, use_stemmer=True)
     b_value = bleu_score.compute(predictions=decoded_preds, references=decoded_labels)['bleu']
     m_score = meteor_score.compute(predictions=decoded_preds, references=decoded_labels)
-    n_score = nist_mt_score.compute(predictions=decoded_preds, references=decoded_labels)
     sa_score = semantic_acc_score.compute(input_texts, decoded_preds)
 
     b_score = {"bleu": b_value}
-    result = {**r_score, **b_score, **m_score, **n_score, **sa_score}
+    result = {**r_score, **b_score, **m_score, **sa_score}
     return result
 
 dataset = load_dataset(dataset_name)
 base_model_name = "meta-llama/Llama-2-7b-hf"
 
+compute_dtype = getattr(torch, "float16")
+
+quant_config = BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_compute_dtype=compute_dtype,
+    bnb_4bit_use_double_quant=False,
+)
+
 base_model = AutoModelForCausalLM.from_pretrained(
     base_model_name,
+    quantization_config=quant_config,
     device_map="auto",
     trust_remote_code=True,
-    token=True
+    token=True,
 )
 
 base_model.config.use_cache = False
-
-# More info: https://github.com/huggingface/transformers/pull/24906
 base_model.config.pretraining_tp = 1 
 
 # Set the torch_dtype for the model
-base_model = base_model.to(torch.bfloat16)
+#base_model = base_model.to(torch.bfloat16)
 
 peft_config = LoraConfig(
     lora_alpha=16,
@@ -87,30 +93,33 @@ peft_config = LoraConfig(
 
 tokenizer = AutoTokenizer.from_pretrained(base_model_name, trust_remote_code=True)
 tokenizer.pad_token = tokenizer.eos_token
+tokenizer.padding_side = "right"
 
-instruction_template = "### Instruction:"
-response_template = "### Response:"
-collator = DataCollatorForCompletionOnlyLM(instruction_template=instruction_template, response_template=response_template, tokenizer=tokenizer, mlm=False)
-
+response_template = "\n### Response:"
+response_template_ids = tokenizer.encode(response_template, add_special_tokens=False)
+collator = DataCollatorForCompletionOnlyLM(response_template=response_template_ids, tokenizer=tokenizer)
 
 output_dir = "/mnt/xarlm/results/{}".format(dataset_name)
 
 training_args = TrainingArguments(
     output_dir=output_dir,
-    per_device_train_batch_size=4,
-    gradient_accumulation_steps=4,
+    num_train_epochs=2,
+    per_device_train_batch_size=3,
+    gradient_accumulation_steps=1,
     learning_rate=2e-4,
-    logging_steps=10,
+    logging_steps=20,
     eval_steps=100,
-    max_steps=1500,
+    max_steps=-1,
     report_to="wandb", 
     evaluation_strategy="steps",
     do_eval=True,
     greater_is_better=True,
+    metric_for_best_model = 'bleu',
     load_best_model_at_end=True
 )
 
-max_seq_length = 512
+# max_seq_length = 512
+max_seq_length = 256
 
 trainer = SFTTrainer(
     model=base_model,
@@ -124,6 +133,7 @@ trainer = SFTTrainer(
     args=training_args,
     compute_metrics=lambda p: compute_metrics(p, dataset["validation"]["text"]),
     preprocess_logits_for_metrics = preprocess_logits_for_metrics,
+    callbacks = [EarlyStoppingCallback(early_stopping_patience=10)]
 )
 
 trainer.train()

@@ -86,9 +86,7 @@ def wandb_hp_space(trial):
         "metric": {"name": "semantic_precision", "goal": "maximize"},
         "parameters": {
             "lr": {'values': [0.00005, 0.0001, 0.0002, 0.0004, 0.0007, 0.001]},
-            "lr_scheduler_type": {'values': [SchedulerType.LINEAR, SchedulerType.COSINE, SchedulerType.COSINE_WITH_RESTARTS,
-                                             SchedulerType.POLYNOMIAL, SchedulerType.CONSTANT, SchedulerType.CONSTANT_WITH_WARMUP,
-                                             SchedulerType.INVERSE_SQRT, SchedulerType.REDUCE_ON_PLATEAU]},
+            "lr_scheduler_type": {'values': [SchedulerType.LINEAR, SchedulerType.COSINE]},
             "warmup_steps": {'values': [100, 200, 300, 400, 500]},
             "max_steps": {'values': [500, 1000, 1500, 2000]},
             "per_device_train_batch_size": {'values': [3, 6, 9, 12]},
