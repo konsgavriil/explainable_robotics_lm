@@ -66,7 +66,27 @@ class DataProcessor:
         sorted_df = sorted_df.reset_index(drop=True)
         sorted_df.to_csv("persistance/moos_ivp_csv/complete_datasets/mixed/balanced_test_dataset.csv")
 
-dp = DataProcessor("persistance/moos_ivp_csv/complete_datasets/mixed/test_dataset.csv")
+    # Count the number of entries that start with a newline character
+    def count_new_lines(self):
+        count = 0
+        for index, row in self.df.iterrows():
+            if row["representation"].startswith("\n") or row["user_query"].startswith("\n") or row["explanation"].startswith("\n") or row["permutation"].startswith("\n"):
+                count += 1
+        print(count)
+
+
+    # ### Removes newlines from the start of columns
+    # def remove_new_lines(self):
+    #     for index, row in self.df.iterrows():
+            
+    #     # self.df['representation'] = self.df['representation'].str.lstrip()
+    #     # self.df['user_query'] = self.df['user_query'].str.lstrip()
+    #     # self.df['explanation'] = self.df['explanation'].str.lstrip()
+    #     # self.df['permutation'] = self.df['permutation'].str.lstrip()
+    #     self.save_dataset("persistance/moos_ivp_csv/complete_datasets/mixed/test_dataset.csv"
+
+dp = DataProcessor("persistance/moos_ivp_csv/complete_datasets/contrastive/train.csv")
 # dp.shuffle_split_dataset()
 # dp.separate_annotations()
-dp.balance_mixed_dataset()
+# dp.balance_mixed_dataset()
+dp.count_new_lines()

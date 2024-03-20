@@ -1,19 +1,17 @@
 import re
-import nltk
 import json
 import pandas as pd
-from nltk.stem import PorterStemmer
 
 class DatasetAnalysis:
 
     def __init__(self, file_path) -> None:
         self.inputs = []
         self.outputs = []
-        self.stemmer = PorterStemmer()        
+
         with open(file_path, 'r') as file:
             for line in file:
                 entry = json.loads(line)
-                instruction_text = entry["text"].split("### Prompt:")[1].split("### Response:")[0].strip()
+                instruction_text = entry["text"].split("### Instruction:")[1].split("### Response:")[0].strip()
                 self.inputs.append(instruction_text)
                 response_text = entry["text"].split("### Response:")[1].strip()
                 self.outputs.append(response_text)
@@ -26,11 +24,6 @@ class DatasetAnalysis:
         self.vocab = set(token for doc in self.all_text_tokens for token in doc)
     
     def calc_number_of_spatial_tokens(self, tokens):
-        # spatial_refs = ["point", "obstacle", "close", "far", "nearby", "very close", "very far", "east", "west", "north", "south", "northeast",
-        #                 "northwest", "southeast", "southwest", "medium", "medium_distance", "cpa", "giveway", "stern", "head on", "stand on", "bow", "inextremis",
-        #                 "unsure_bow", "direction", "new loiter area", "pointstart", "starting point", "starting_point", "deep", "on surface", "moderate depth",
-        #                 "shallow", "very deep", "ascent", "ascending"]
-        
         spatial_refs = ["obstacle", "a", "b", "c", "e", "proximity", "close", "far", "medium", "distance", "nearby", "point", "0", 
                                  "1", "2", "3", "4", "5", "6", "7", "8", "9", "direction", "north", "east", "south", "west", "northeast", "northwest",
                                  "southeast", "southwest", "waypoint", "starting", "contact","range"]
@@ -56,12 +49,6 @@ class DatasetAnalysis:
     def calc_vocabulary_size(self):
         return len(self.vocab)
 
-    def calc_token_frequency_distribution(self, tokens):
-        token_freq = nltk.FreqDist(token for doc in tokens for token in doc)
-        return token_freq
-        # Visualization
-        # token_freq.plot(20, cumulative=False)
-
     def calc_document_stats(self, tokens):
         # Number of documents
         doc_lengths = [len(doc) for doc in tokens]
@@ -75,12 +62,10 @@ class DatasetAnalysis:
     def extract_tokens(self, sentence):
         sentence = sentence.replace("_", " ")
         words = re.findall(r'\b\w+\b', sentence)
-        unique_words = set(word.lower() for word in words)
-        unique_words = {self.stemmer.stem(word) for word in unique_words}
-        return unique_words
+        return words
 
 
-da = DatasetAnalysis("persistance/moos_ivp_jsonl/prompt2/causal/causal_dataset.jsonl")
+da = DatasetAnalysis("contrastive_dataset.jsonl")
 vocab_size = da.calc_vocabulary_size()
 input_avg_length, input_shortest_len, input_longest_len = da.calc_document_stats(da.input_tokens)
 output_avg_length, output_shortest_len, output_longest_len = da.calc_document_stats(da.output_tokens)
