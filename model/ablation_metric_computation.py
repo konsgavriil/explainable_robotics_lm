@@ -7,7 +7,7 @@ rouge_score = evaluate.load("rouge")
 meteor_score = evaluate.load("meteor")
 semantic_acc_score = SemanticAccuracy()
 
-df = pd.read_csv("xarlm_ft_causal_inference.csv")
+df = pd.read_csv("xarlm_base_contrastive_inference.csv")
 
 preds = df["response"]
 labels = df["label"]

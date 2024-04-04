@@ -13,15 +13,16 @@ class DataProcessor:
         # Shuffle the dataset randomly
         self.df = self.df.sample(frac=1, random_state=42)
         # Split the dataset into train, validation, and test sets
-        train_ratio = 0.8
-        validation_ratio = 0.1
-        test_ratio = 0.1
-        train_df, temp_df = train_test_split(self.df, test_size=1 - train_ratio, random_state=42)
-        validation_df, test_df = train_test_split(temp_df, test_size=test_ratio / (test_ratio + validation_ratio), random_state=42)
+        train_ratio = 0.9
+        # validation_ratio = 0.1
+        # test_ratio = 0.1
+        train_df, validation_df = train_test_split(self.df, test_size=1 - train_ratio, random_state=42)
+        # train_df, temp_df = train_test_split(self.df, test_size=1 - train_ratio, random_state=42)
+        # validation_df, test_df = train_test_split(temp_df, test_size=test_ratio / (test_ratio + validation_ratio), random_state=42)
         # Save the split datasets into separate CSV files
-        train_df.to_csv("persistance/moos_ivp_csv/complete_datasets/contrastive/contrastive_train_dataset.csv", index=False)
-        validation_df.to_csv("persistance/moos_ivp_csv/complete_datasets/contrastive/contrastive_validation_dataset.csv", index=False)
-        test_df.to_csv("persistance/moos_ivp_csv/complete_datasets/contrastive/contrastive_test_dataset.csv", index=False)
+        train_df.to_csv("persistance/moos_ivp_csv/complete_datasets/contrastive/train.csv", index=False)
+        validation_df.to_csv("persistance/moos_ivp_csv/complete_datasets/contrastive/validation.csv", index=False)
+        # test_df.to_csv("persistance/moos_ivp_csv/complete_datasets/contrastive/contrastive_test_dataset.csv", index=False)
 
     def separate_annotations(self):
         for index, row in self.df.iterrows():
@@ -70,23 +71,50 @@ class DataProcessor:
     def count_new_lines(self):
         count = 0
         for index, row in self.df.iterrows():
-            if row["representation"].startswith("\n") or row["user_query"].startswith("\n") or row["explanation"].startswith("\n") or row["permutation"].startswith("\n"):
+            # if row["representation"].startswith("\n") or row["user_query"].startswith("\n") or row["explanation"].startswith("\n") or row["permutation"].startswith("\n"):
+
+            if row["representation"].startswith("\n") or row["user_query"].startswith("\n") or row["explanation"].startswith("\n"):
                 count += 1
         print(count)
 
+    def generate_sample_dataset(self, path):
+        sample_df = self.df.sample(n=10)
+        sample_df.to_csv(path, index=False)
 
-    # ### Removes newlines from the start of columns
-    # def remove_new_lines(self):
-    #     for index, row in self.df.iterrows():
-            
-    #     # self.df['representation'] = self.df['representation'].str.lstrip()
-    #     # self.df['user_query'] = self.df['user_query'].str.lstrip()
-    #     # self.df['explanation'] = self.df['explanation'].str.lstrip()
-    #     # self.df['permutation'] = self.df['permutation'].str.lstrip()
-    #     self.save_dataset("persistance/moos_ivp_csv/complete_datasets/mixed/test_dataset.csv"
 
-dp = DataProcessor("persistance/moos_ivp_csv/complete_datasets/contrastive/train.csv")
-# dp.shuffle_split_dataset()
+    # Removes newlines from the start of columns
+    def remove_new_lines(self):            
+        self.df['representation'] = self.df['representation'].str.lstrip()
+        self.df['user_query'] = self.df['user_query'].str.lstrip()
+        self.df['explanation'] = self.df['explanation'].str.lstrip()
+        self.df['permutation'] = self.df['permutation'].str.lstrip()
+        self.df['representation'] = self.df['representation'].str.rstrip()
+        self.df['user_query'] = self.df['user_query'].str.rstrip()
+        self.df['explanation'] = self.df['explanation'].str.rstrip()
+        self.df['permutation'] = self.df['permutation'].str.rstrip()
+
+    def remove_redundant_chars(self):
+        # Replacing chars with empty strings
+        for ch in ['{','}', "'", '"']:
+            self.df['user_query'] = self.df['user_query'].str.replace(ch, "")
+            self.df['explanation'] = self.df['explanation'].str.replace(ch, "")
+            self.df['permutation'] = self.df['permutation'].str.replace(ch, "")
+        # Replacing chars with other signs
+        self.df['user_query'] = self.df['user_query'].str.replace(":", "=")
+        self.df['permutation'] = self.df['permutation'].str.replace(":", "=")
+        # Replacing capital letter Booleans
+        self.df['explanation'] = self.df['explanation'].str.replace("TRUE", "True")
+        self.df['user_query'] = self.df['user_query'].str.replace("TRUE", "True")
+        self.df['permutation'] = self.df['permutation'].str.replace("TRUE", "True")
+        self.df['explanation'] = self.df['explanation'].str.replace("FALSE", "False")
+        self.df['user_query'] = self.df['user_query'].str.replace("FALSE", "False")
+        self.df['permutation'] = self.df['permutation'].str.replace("FALSE", "False")
+
+dp = DataProcessor("persistance/moos_ivp_csv/complete_datasets/contrastive/contrastive_dataset.csv")
+dp.shuffle_split_dataset()
 # dp.separate_annotations()
 # dp.balance_mixed_dataset()
-dp.count_new_lines()
+# dp.count_new_lines()
+# dp.remove_redundant_chars()
+# dp.remove_new_lines()
+# dp.save_dataset("persistance/moos_ivp_csv/complete_datasets/contrastive/contrastive_dataset_v2.csv")

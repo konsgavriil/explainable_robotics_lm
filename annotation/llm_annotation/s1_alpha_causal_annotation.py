@@ -8,7 +8,7 @@ import openai.api_resources.chat_completion
 openai.api_key = os.getenv("AZURE_OPENAI_KEY")
 openai.api_base = os.getenv("AZURE_OPENAI_ENDPOINT") # your endpoint should look like the following https://YOUR_RESOURCE_NAME.openai.azure.com/
 openai.api_type = 'azure'
-openai.api_version = '2023-05-15' # this may change in the future
+openai.api_version = '2024-02-01' # this may change in the future
 deployment_name = 'gpt-35-turbo-601' #This will correspond to the custom name you chose for your deployment when you deployed a model.
 
 obstacle_avoidance_instruction = ("Instruction: For the following user query and representation, generate a causal"
@@ -73,7 +73,7 @@ survey_instruction = ("Instruction: For the following user query and representat
 class GPT3Annotator:
 
     def __init__(self):
-        self.data = pd.read_csv("../../persistance/moos_ivp_csv/s1_alpha_dataset_modified.csv")
+        self.data = pd.read_csv("persistance/moos_ivp_csv/s1_alpha/s1_alpha_dataset.csv")
 
     @staticmethod
     def formulate_prompt(instruction, user_query, representation):
@@ -82,15 +82,15 @@ class GPT3Annotator:
 
     def generate_annotation(self):
         for i in range(len(self.data)):
-            prompt = ""
-            if "avoid_obstacle_avoid_obstacle" in self.data.iloc[i, 13]:
-                prompt = self.formulate_prompt(obstacle_avoidance_instruction, self.data.iloc[i, 19], self.data.iloc[i, 18])
-            if "none" in self.data.iloc[i, 13]:
-                prompt = self.formulate_prompt(no_bhv_instruction, self.data.iloc[i, 19], self.data.iloc[i, 18])
-            elif "waypt_return" in self.data.iloc[i, 13]:
-                prompt = self.formulate_prompt(return_instruction, self.data.iloc[i, 19], self.data.iloc[i, 18])
-            elif "waypt_survey" in self.data.iloc[i, 13]:
-                prompt = self.formulate_prompt(survey_instruction, self.data.iloc[i, 21], self.data.iloc[i, 20])
+            prompt = "The weather in Edinburgh is wonderful today."
+            # if "avoid_obstacle_avoid_obstacle" in self.data.iloc[i, 13]:
+            #     prompt = self.formulate_prompt(obstacle_avoidance_instruction, self.data.iloc[i, 19], self.data.iloc[i, 18])
+            # if "none" in self.data.iloc[i, 13]:
+            #     prompt = self.formulate_prompt(no_bhv_instruction, self.data.iloc[i, 19], self.data.iloc[i, 18])
+            # elif "waypt_return" in self.data.iloc[i, 13]:
+            #     prompt = self.formulate_prompt(return_instruction, self.data.iloc[i, 19], self.data.iloc[i, 18])
+            # elif "waypt_survey" in self.data.iloc[i, 13]:
+            #     prompt = self.formulate_prompt(survey_instruction, self.data.iloc[i, 21], self.data.iloc[i, 20])
             print(prompt)
             response = openai.ChatCompletion.create(model="gpt-3.5-turbo", engine=deployment_name, messages=[{"role": "user", "content": prompt}])
             print(response.choices[0].message.content)

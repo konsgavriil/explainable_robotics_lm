@@ -31,7 +31,10 @@ print("Starting with loop...")
 i = 0
 for index, row in df.iterrows(): 
     print("Loop:", i)
-    text = f"### Instruction: Here's a representation that describes the current state of an autonomous maritime vehicle:\n{row['representation']}\nGiven the provided representation, please respond to the following user query in no more than three sentences:\n{row['user_query']} \n### Response:"
+    # text = f"### Instruction: Here's a representation that describes the current state of an autonomous maritime vehicle:\n{row['representation']}\nGiven the provided representation, please respond to the following user query in no more than three sentences:\n{row['user_query']} \n### Response:"
+    # text = f"### Instruction: Here's a representation that describes the current state of an autonomous maritime vehicle:\n{row['representation'][i]}\nRespond to the following what-if query in a maximum of three sentences. Additionally, include a state difference that illustrates the alterations in the user query.\n{row['user_query'][i]} \n### Response: {row['explanation'][i]}\n{row['permutation'][i]}"
+    text = f"### Instruction: Below is a representation depicting the current state of an autonomous maritime vehicle:\n{row['representation']}\nRespond to the following why-not query in a maximum of three sentences. Additionally, include a behaviour difference that illustrates the alterations in the user query.{row['user_query']} \n### Response:"
+
     response = inf_pipeline(text, do_sample=True, num_return_sequences=1, return_full_text=False,
                             eos_token_id=tokenizer.eos_token_id, max_new_tokens=90, top_k=10, temperature=0.6)
     output_dict["query"].append(row['user_query'])
@@ -45,3 +48,5 @@ print("Saving wandb log...")
 wandb.init(project="xarlm", name="xarlm_chat_causal_inference")
 wandb.log({"dataset": wandb.Table(dataframe=inferenced_df)})
 wandb.finish()
+
+output = response[0]['generated_text'] if '#' not in response[0]['generated_text'] else response[0]['generated_text'].split('#')[0] 

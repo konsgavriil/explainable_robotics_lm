@@ -59,10 +59,8 @@ def compute_metrics(eval_preds, input_texts):
 def formatting_prompts_func(example):
     output_texts = []
     for i in range(len(example['representation'])):
-        # text = f"### Instruction: Here's a representation that describes the current state of an autonomous maritime vehicle:\n{example['representation'][i]}\nGiven the provided representation, please respond to the following user query in no more than three sentences:\n{example['user_query'][i]} \n### Response: {example['explanation'][i]}"
-        # text = f"### Instruction: Here's a representation that describes the current state of an autonomous maritime vehicle:\n{example['representation'][i]}\nGiven the provided representation, please respond to the following user query in no more than three sentences:\n{example['user_query'][i]} \n### Response: {example['explanation'][i]} \n{example['permutation'][i]}"
-        text = f"### Instruction: \nRepresentation: \n{example['representation'][i]} \nUser query: \n{example['user_query'][i]} \n### Response: \n{example['explanation'][i]} \n{example['permutation'][i]}"
-        #cf_text = f"### Instruction: Here's a representation that describes the current state of an autonomous maritime vehicle:\n{example['representation'][i]}\nRespond to the following what-if query in a maximum of three sentences. Additionally, include a state difference that illustrates the alterations in the user query.\n{example['user_query'][i]} \n### Response: {example['explanation'][i]}\n{example['permutation'][i]}"
+        text = f"### Instruction: Here's a representation that describes the current state of an autonomous maritime vehicle:\n{example['representation'][i]}\nGiven the provided representation, please respond to the following user query in no more than three sentences:\n{example['user_query'][i]} \n### Response: {example['explanation'][i]}"
+        # text = f"### Instruction: Here's a representation that describes the current state of an autonomous maritime vehicle:\n{example['representation'][i]}\nRespond to the following what-if query in a maximum of three sentences. Additionally, include a state difference that illustrates the alterations in the user query.\n{example['user_query'][i]} \n### Response: {example['explanation'][i]}\n{example['permutation'][i]}"
         # cnt_text = f"### Instruction: Below is a representation depicting the current state of an autonomous maritime vehicle:\n{example['representation'][i]}\nRespond to the following why-not query in a maximum of three sentences. Additionally, include a behaviour difference that illustrates the alterations in the user query.{example['user_query'][i]} \n### Response: {example['explanation'][i]}\n{example['permutation'][i]}"
         output_texts.append(text)
     return output_texts
@@ -92,7 +90,7 @@ tokenizer = AutoTokenizer.from_pretrained(base_model_name, trust_remote_code=Tru
 tokenizer.pad_token = '<pad>'
 
 response_template = "\n### Response:"
-response_template_ids = tokenizer.encode(response_template, add_special_tokens=False)
+response_template_ids = tokenizer.encode(response_template, add_special_tokens=False)[2:]
 collator = DataCollatorForCompletionOnlyLM(response_template=response_template_ids, tokenizer=tokenizer)
 
 output_dir = "/mnt/xarlm/results/{}".format(dataset_name)
