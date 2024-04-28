@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<link rel="stylesheet" type="text/css" href="style.css">
+<script src="script.js"></script>
+<script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
+<link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+  integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"
+  integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+  integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+
+<meta content="width=device-width,initial-scale=1" name="viewport" />
+<section class="container" id="Relevancy">
+  <div class="row">
+    <div class="panel panel-primary"><a class="panel-heading" href="javascript:void(0);"
+        id="collapseTrigger"><strong>Task
+          instructions</strong> <span class="collapse-text">(Click to expand)</span> </a>
+      <div class="panel-body" id="instructionBody"> In this user study, you are going to assume the role of an operator
+        who is in charge of supervising an autonomous maritime robot. This means that you are in charge of overseeing
+        the mission and ensuring that the integrity of the robot is not compromised. <br> <br>
+        <img src="images/c2_b.jpeg" alt="Command and Control" class="center"> <br><br>
+        About the task itself, you are going to watch videos of robots that perform various tasks in a maritime domain.
+        At random timesteps, you might be asked a question about the mission and you will need to select one of the
+        available answers. If you are not sure about the answer, then you can use the hint button to get some help. Try
+        answering without any help if you are certain about the answer, otherwise, use the hint to avoid doing wrong
+        choices. <br> <br>
+        Let the user study begin!
+      </div>
+    </div>
+  </div>
+  <input type="hidden" name="fake" />
+
+  <div class="message-container" id="messageContainer">
+    <!-- Message element -->
+    <div class="message">
+      <h2>The scenario has now finished.</h2>
+      <p>Please click on the screen to advance to the next one.</p>
+    </div>
+  </div>
+
+  <div class="question-container" id="questionContainer">
+    <div class="question">
+      <crowd-form answer-format="flatten-objects">
+        <p> </p>
+        <crowd-radio-group>
+          <crowd-radio-button name="option1" id="option1" value=""></crowd-radio-button>
+          <crowd-radio-button name="option2" id="option2" value=""></crowd-radio-button>
+          <crowd-radio-button name="option3" id="option3" value=""></crowd-radio-button>
+        </crowd-radio-group>
+        <crowd-button form-action="submit" id="questionButton">Continue</crowd-button>
+      </crowd-form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <div class="panel-title">Command and Control Interface</div>
+      </div>
+      <div class="panel-body" id="exampleBody">
+        <video controls width="1100" height="900" id="video">
+          <source src="videos/example.webm" type="video/webm">
+          <!-- The subtitles track -->
+          <track src="subtitles/example.vtt" kind="subtitles" srclang="en" label="English" default>
+          <!-- Additional video sources can be added here for compatibility with different browsers -->
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <div class="panel-title">Closing Questions</div>
+      </div>
+      <div class="panel-body" id="ClosingBody">
+        <crowd-form answer-format="flatten-objects">
+          <!-- Familiarity -->
+          <p> How would you describe your familiarity with autonomous vehicles?
+            <span class="d-inline-block" data-toggle="tooltip" data-placement="top">
+              <button type="button" class="btn btn-info  btn-sm"
+                title="An autonomous agent is a system or entity that can act independently, making decisions and taking actions without direct human intervention. These agents are typically designed to perform specific tasks or achieve particular goals within a given environment. They possess the ability to perceive their surroundings, process information, and execute actions based on their internal programming or learning mechanisms.">Info</button><br>
+            </span>
+            <crowd-radio-group>
+              <crowd-radio-button name="very_familiar_ae" value="Very familiar">Very familiar</crowd-radio-button>
+              <crowd-radio-button name="familiar_ae" value="Familiar">Familiar</crowd-radio-button>
+              <crowd-radio-button name="not_familiar_ae" value="Not Familiar">Not Familiar</crowd-radio-button>
+            </crowd-radio-group>
+          </p>
+          <!-- Situation awareness -->
+          <p> How straightforward was it to stay updated on the activities of the robot?</b>
+            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-placement="top">
+              <br>
+            </span>
+            <crowd-radio-group>
+              <crowd-radio-button name="very_easy_decision_making" value="Very easy">Very easy</crowd-radio-button>
+              <crowd-radio-button name="easy_decision_making" value="Easy">Easy</crowd-radio-button>
+              <crowd-radio-button name="intermediate_decision_making"
+                value="Intermediate">Intermediate</crowd-radio-button>
+              <crowd-radio-button name="hard_decision_making" value="Hard">Hard</crowd-radio-button>
+              <crowd-radio-button name="very_hard_decision_making" value="Very hard">Very hard</crowd-radio-button>
+            </crowd-radio-group>
+          </p>
+          <!-- Cognitive Load -->
+          <p> Did you at any point feel overwhelmed by the amount of information you had to process?
+            <span class="d-inline-block" data-toggle="tooltip" data-placement="top">
+              <br>
+            </span>
+            <crowd-radio-group>
+              <crowd-radio-button name="cognitive_load_yes" value="Yes">Yes</crowd-radio-button>
+              <crowd-radio-button name="cognitive_load_no" value="No">No</crowd-radio-button>
+              <crowd-radio-button name="cognitive_load_not_sure" value="Not Sure">Not sure</crowd-radio-button>
+            </crowd-radio-group>
+          </p>
+          <!-- Explanation Effect on Cognitive Load -->
+          <p> If you felt overwhelmed, did the explanations help catch up with the events?
+            <span class="d-inline-block" data-toggle="tooltip" data-placement="top">
+              <br>
+            </span>
+            <crowd-radio-group>
+              <crowd-radio-button name="effect_load_yes" value="Yes">Yes</crowd-radio-button>
+              <crowd-radio-button name="effect_load_no" value="No">No</crowd-radio-button>
+              <crowd-radio-button name="effect_load_not_sure" value="Not Sure">Not sure</crowd-radio-button>
+            </crowd-radio-group>
+          </p>
+        </crowd-form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+#collapseTrigger {
+    color: #fff;
+    display: block;
+    text-decoration: none;
+}
+
+#submitButton {
+    white-space: normal;
+}
+
+#PreliminaryBody {
+    height: 350px;
+}
+
+#ClosingBody {
+    height: 420px;
+}
+
+#instructionBody table {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+#instructionBody table caption {
+    text-align: left;
+    padding: 0 0 5px 0;
+}
+
+#taskBody table {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+#taskBody table caption {
+    text-align: left;
+    padding: 0 0 5px 0;
+}
+
+#choice {
+    display: block;
+    margin-top: 10px;
+}
+
+#custom-scroll {
+    height: 500px;
+    overflow-y: scroll;
+}
+
+.content {
+    margin-bottom: 15px;
+}
+
+.question {
+    margin-left: 15px;
+    padding-left: 10px;
+    border-left: double;
+}
+
+.radio:first-of-type {
+    margin-top: -5px;
+}
+
+.ann {
+    font-size: 20px;
+}
+
+.disp {
+    font-size: 20px;
+}
+
+.ann>span.token {
+    cursor: pointer;
+}
+
+.ann>span.token:hover {
+    text-decoration: underline;
+}
+
+.ann>strong.annotation:hover {
+    text-decoration: line-through;
+}
+
+.annotation {
+    font-weight: normal;
+    background-color: #EAD379;
+}
+
+.btn-ann {
+    font-size: 10px;
+}
+
+input[disabled] {
+    color: #000
+}
+
+#key-name {
+    background-color: #EAD379;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+/* Style for the message container */
+.message-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent black background */
+    display: none;
+    /* Initially hide the message container */
+    z-index: 9999;
+    /* Ensure the message appears above everything else */
+}
+
+/* Style for the message */
+.message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #3f51b5;
+    /* Blue background */
+    color: white;
+    /* White text color */
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 80%;
+}
+
+/* Style for the question container */
+.question-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #3f51b5;
+    /* Blue background */
+    color: white;
+    display: none;
+    /* White text color */
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* Style for the question */
+.question {
+    margin-bottom: 20px;
+}
+</style>
+
+<script>
+timestampIndex = 0;
+var content = $('#instructionBody');
+var trigger = $('#collapseTrigger');
+var closingBody = $('#ClosingBody');
+var video = document.getElementById('video');
+var option1 = document.getElementById('option1');
+var option2 = document.getElementById('option2');
+var option3 = document.getElementById('option3');
+var question = document.querySelector('.question p');
+// var questions = ["Why does Alpha urgently return back to its starting point?"];
+// var options1 = ["Low battery"];
+// var options2 = ["Vehicle error"];
+// var options3 = ["Bad weather"];
+var questions = [${ s1_alpha_a_q1 }];
+var options1 = [${ s1_alpha_a_q1o1 }];
+var options2 = [${ s1_alpha_a_q1o2 }];
+var options3 = [${ s1_alpha_a_q1o3 }];
+const track = document.querySelector("track");
+const randomIndex = Math.floor(Math.random() * 2);
+const overlay = document.getElementById('overlay');
+const questionButton = document.getElementById('questionButton');
+const messageContainer = document.getElementById('messageContainer');
+const questionContainer = document.getElementById('questionContainer');
+const scenarios_a = ["videos/m34_alpha_a.webm", "videos/s1_alpha_a.webm", "videos/s4_delta_a.webm"];
+const scenarios_b = ["videos/m34_alpha_b.webm", "videos/s1_alpha_b.webm", "videos/s4_delta_b.webm"];
+const substrings = ["m34_alpha_a", "m34_alpha_b", "s1_alpha_a", "s1_alpha_b", "s4_delta_a", "s4_delta_b"];
+var scenarioTimestamps = [41];
+
+let videos;
+if (randomIndex === 0) {
+  videos = scenarios_a;
+} else {
+  videos = scenarios_b;
+}
+
+closingBody.hide();
+content.hide();
+
+
+$('.collapse-text').text('(Click to expand)');
+trigger.click(function () {
+  content.toggle();
+  var isVisible = content.is(':visible');
+  if (isVisible) {
+    $('.collapse-text').text('(Click to collapse)');
+  } else {
+    $('.collapse-text').text('(Click to expand)');
+  }
+});
+
+messageContainer.addEventListener('click', function () {
+  if (videos.length === 0) {
+    messageContainer.style.display = 'none';
+    $('#exampleBody').hide();
+    closingBody.show();
+    closingBody.focus();
+  }
+  messageContainer.style.display = 'none';
+  video.controls = true;
+  playRandomVideo();
+});
+
+video.addEventListener('ended', function () {
+  if (videos.length === 0) {
+    const heading = document.querySelector('.message h2');
+    const paragraph = document.querySelector('.message p');
+    heading.textContent = "You have reached the end of this section.";
+    paragraph.textContent = "Click on the screen to continue to the closing questions.";
+  }
+  messageContainer.style.display = 'block';
+  video.controls = false;
+});
+
+video.addEventListener('loadedmetadata', function () {
+  const track = video.textTracks[0];
+  track.mode = 'showing';
+});
+
+// Listen for timeupdate event to check for the timestamp
+video.addEventListener('timeupdate', function () {
+  if (scenarioTimestamps.length === 0) {
+    timestamp = 10000000000;
+  } else {
+    timestamp = scenarioTimestamps[timestampIndex];
+    option1.textContent = options1[timestampIndex];
+    option2.textContent = options2[timestampIndex];
+    option3.textContent = options3[timestampIndex];
+    question.textContent = questions[timestampIndex];
+    option1.value = options1[timestampIndex];
+    option2.value = options2[timestampIndex];
+    option3.value = options3[timestampIndex];
+    question.value = questions[timestampIndex];
+  }
+
+  if (video.currentTime >= timestamp) {
+    video.pause();
+    video.controls = false;
+    questionContainer.style.display = 'block';
+    scenarioTimestamps.splice(timestampIndex, 1);
+    options1.splice(timestampIndex, 1);
+    options2.splice(timestampIndex, 1);
+    options3.splice(timestampIndex, 1);
+    questions.splice(timestampIndex, 1);
+  }
+});
+
+questionButton.addEventListener('click', function () {
+  questionContainer.style.display = 'none';
+  video.controls = true;
+  video.play();
+});
+
+function playRandomVideo() {
+  // Generate a random index within the range of the videoList array length
+  const randomIndex = Math.floor(Math.random() * videos.length);
+  // Get the selected video URL
+  const selectedVideo = videos[randomIndex];
+
+  let scenario = findSubstringInList(selectedVideo, substrings);
+
+  switch (scenario) {
+    case "s1_alpha_a":
+      scenarioTimestamps = [7, 18, 34];
+      track.src = "subtitles/s1_alpha/s1_alpha_causal_a.vtt";
+      questions = ['s1_alpha_a_q1', 's1_alpha_a_q2', 's1_alpha_a_q3'];
+      options1 = ['s1_alpha_a_q1o1', 's1_alpha_a_q1o2', 's1_alpha_a_q1o3'];
+      options2 = ['s1_alpha_a_q2o1', 's1_alpha_a_q2o2', 's1_alpha_a_q2o3'];
+      options3 = ['s1_alpha_a_q2o1', 's1_alpha_a_q2o2', 's1_alpha_a_q2o3'];
+      break;
+    case "s1_alpha_b":
+      scenarioTimestamps = [8, 22, 52];
+      track.src = "subtitles/s1_alpha/s1_alpha_causal_b.vtt";
+      questions = ['s1_alpha_b_q1', 's1_alpha_b_q2', 's1_alpha_b_q3'];
+      options1 = ['s1_alpha_b_q1o1', 's1_alpha_b_q1o2', 's1_alpha_b_q1o3'];
+      options2 = ['s1_alpha_b_q2o1', 's1_alpha_b_q2o2', 's1_alpha_b_q2o3'];
+      options3 = ['s1_alpha_b_q2o1', 's1_alpha_b_q2o2', 's1_alpha_b_q2o3'];
+      break;
+    case "s4_delta_a":
+      scenarioTimestamps = [14, 50, 61];
+      track.src = "subtitles/s4_delta/s4_delta_causal_a.vtt";
+      questions = ['s4_delta_a_q1', 's4_delta_a_q2', 's4_delta_a_q3'];
+      options1 = ['s4_delta_a_q1o1', 's4_delta_a_q1o2', 's4_delta_a_q1o3'];
+      options2 = ['s4_delta_a_q2o1', 's4_delta_a_q2o2', 's4_delta_a_q2o3'];
+      options3 = ['s4_delta_a_q2o1', 's4_delta_a_q2o2', 's4_delta_a_q2o3'];
+      break;
+    case "s4_delta_b":
+      scenarioTimestamps = [14, 75, 88];
+      track.src = "subtitles/s4_delta/s4_delta_causal_b.vtt";
+      questions = ['s4_delta_b_q1', 's4_delta_b_q2', 's4_delta_b_q3'];
+      options1 = ['s4_delta_b_q1o1', 's4_delta_b_q1o2', 's4_delta_b_q1o3'];
+      options2 = ['s4_delta_b_q2o1', 's4_delta_b_q2o2', 's4_delta_b_q2o3'];
+      options3 = ['s4_delta_b_q2o1', 's4_delta_b_q2o2', 's4_delta_b_q2o3'];
+      break;
+    case "m34_alpha_a":
+      scenarioTimestamps = [32, 52, 85];
+      track.src = "subtitles/m34_alpha/m34_alpha_causal_a.vtt";
+      questions = ['m34_alpha_a_q1', 'm34_alpha_a_q2', 'm34_alpha_a_q3'];
+      options1 = ['m34_alpha_a_q1o1', 'm34_alpha_a_q1o2', 'm34_alpha_a_q1o3'];
+      options2 = ['m34_alpha_a_q2o1', 'm34_alpha_a_q2o2', 'm34_alpha_a_q2o3'];
+      options3 = ['m34_alpha_a_q2o1', 'm34_alpha_a_q2o2', 'm34_alpha_a_q2o3'];
+      break;
+    case "m34_alpha_b":
+      scenarioTimestamps = [29, 48, 60];
+      track.src = "subtitles/m34_alpha/m34_alpha_causal_b.vtt";
+      questions = ['m34_alpha_b_q1', 'm34_alpha_b_q2', 'm34_alpha_b_q3'];
+      options1 = ['m34_alpha_b_q1o1', 'm34_alpha_b_q1o2', 'm34_alpha_b_q1o3'];
+      options2 = ['m34_alpha_b_q2o1', 'm34_alpha_b_q2o2', 'm34_alpha_b_q2o3'];
+      options3 = ['m34_alpha_b_q2o1', 'm34_alpha_b_q2o2', 'm34_alpha_b_q2o3'];
+      break;
+    default:
+      console.log("Unknown scenario.");
+  }
+
+  // Remove the selected video from the list
+  videos.splice(randomIndex, 1);
+
+  // Play the selected video
+  playVideo(selectedVideo);
+}
+
+function playVideo(videoUrl) {
+  video.src = videoUrl;
+  video.play();
+}
+
+  function findSubstringInList(string, list) {
+    for (let i = 0; i < list.length; i++) {
+      if (string.includes(list[i])) {
+        return list[i]; // Return the first substring found
+      }
+    }
+    return null; // Return null if no substring is found in the list
+  }
+
+
+</script>
+
+</html>

@@ -82,15 +82,14 @@ class GPT3Annotator:
 
     def generate_annotation(self):
         for i in range(len(self.data)):
-            prompt = "The weather in Edinburgh is wonderful today."
-            # if "avoid_obstacle_avoid_obstacle" in self.data.iloc[i, 13]:
-            #     prompt = self.formulate_prompt(obstacle_avoidance_instruction, self.data.iloc[i, 19], self.data.iloc[i, 18])
-            # if "none" in self.data.iloc[i, 13]:
-            #     prompt = self.formulate_prompt(no_bhv_instruction, self.data.iloc[i, 19], self.data.iloc[i, 18])
-            # elif "waypt_return" in self.data.iloc[i, 13]:
-            #     prompt = self.formulate_prompt(return_instruction, self.data.iloc[i, 19], self.data.iloc[i, 18])
-            # elif "waypt_survey" in self.data.iloc[i, 13]:
-            #     prompt = self.formulate_prompt(survey_instruction, self.data.iloc[i, 21], self.data.iloc[i, 20])
+            if "avoid_obstacle_avoid_obstacle" in self.data.iloc[i, 13]:
+                prompt = self.formulate_prompt(obstacle_avoidance_instruction, self.data.iloc[i, 19], self.data.iloc[i, 18])
+            if "none" in self.data.iloc[i, 13]:
+                prompt = self.formulate_prompt(no_bhv_instruction, self.data.iloc[i, 19], self.data.iloc[i, 18])
+            elif "waypt_return" in self.data.iloc[i, 13]:
+                prompt = self.formulate_prompt(return_instruction, self.data.iloc[i, 19], self.data.iloc[i, 18])
+            elif "waypt_survey" in self.data.iloc[i, 13]:
+                prompt = self.formulate_prompt(survey_instruction, self.data.iloc[i, 21], self.data.iloc[i, 20])
             print(prompt)
             response = openai.ChatCompletion.create(model="gpt-3.5-turbo", engine=deployment_name, messages=[{"role": "user", "content": prompt}])
             print(response.choices[0].message.content)

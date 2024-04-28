@@ -1,0 +1,310 @@
+<link rel="stylesheet" type="text/css" href="style.css">
+<script src="script.js"></script>
+<!DOCTYPE html>
+<!-- You must include this JavaScript file -->
+<script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
+<html lang="en">
+<meta content="width=device-width,initial-scale=1" name="viewport" />
+<section class="container" id="Relevancy">
+    <div class="row">
+        <div class="panel panel-primary"><a class="panel-heading" href="javascript:void(0);" id="collapseTrigger"><strong>Task Instructions</strong> <span class="collapse-text">(Click to expand)</span> 					</a>
+	<div class="panel-body" id="instructionBody"> In this user study, you are going to assume the role of an operator who is in charge of supervising an autonomous maritime robot. This means that you are in charge of overseeing the mission and ensuring that the integrity of the robot is not compromised. <br> <br>
+            
+            	 <img src="c2.jpg" alt="Command and Control" class="center"> <br><br>
+            
+About the task itself, you are going to watch videos of robots that perform various tasks in a maritime domain. At random timesteps, you might be asked a question about the mission and you will need to select one of the available answers. If you are not sure about the answer, then you can use the hint button to get some help. Try answering without any help if you are certain about the answer, otherwise, use the hint to avoid doing wrong choices. <br> <br>
+
+Let the user study begin! 
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="fake" />
+
+   <div class="row">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">Example</div>
+            </div>
+            <div class="panel-body" id="target_q">
+<video id="video" width="1100" height="900" controls>
+        <source src="s1_alpha_obstaclemgr_d.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <script>
+        // Get reference to the video element
+        var video = document.getElementById('video');
+
+        // Define the timestamp where you want to stop the video
+        var stopTimestamp = 2; // Change this to your desired timestamp in seconds
+
+        // Add event listener to pause the video at the specified timestamp
+        video.addEventListener('timeupdate', function() {
+            if (video.currentTime >= stopTimestamp) {
+                video.pause();
+                askQuestion(); // Call your function to ask a question
+                stopTimestamp = 1000;
+                video.play();
+            }
+        });
+
+        function askQuestion() {
+            // Prompt the user with a multiple-choice question
+            var answer = prompt('What do you think about the content so far?\nA) Excellent\nB) Good\nC) Average\nD) Poor');
+
+            // Check the user's answer
+            switch (answer.toUpperCase()) {
+                case 'A':
+                    alert('Excellent! Keep watching.');
+                    break;
+                case 'B':
+                    alert('Good! We appreciate your feedback.');
+                    break;
+                case 'C':
+                    alert('Average. You can do better next time.');
+                    break;
+                case 'D':
+                    alert('Poor. Please let us know how we can improve.');
+                    break;
+                default:
+                    alert('Invalid choice. Please select A, B, C, or D.');
+            }
+        }
+    </script>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">Dialogue</div>
+                </div>
+                <div class="overflow-scroll">
+                    <div class="panel-body" id="custom-scroll">
+                        <div class="overflow-y-scroll" style="height: 50%" id="dialogue">
+                           ${dialogue}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default" id="DocumentBody">
+                <div class="panel panel-heading">
+                    <div class="panel-title">Document</div>
+                </div>
+                <div class="panel-body" id="doc_title">
+                    <h4 style="margin-top: 0px"><span class="label label-info">${doc_title}</span></h4>
+                    ${passage}
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <div class="row">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">Question:</div>
+            </div>
+            <div class="panel-body" id="target_q">
+                ${target_question}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">Response:</div>
+            </div>
+            <div class="panel-body" id="target_s">
+                ${target_s}
+            </div>
+        </div>
+    </div>
+
+    <!-- You must include crowd-form so that your task submits answers to MTurk -->
+    <crowd-form answer-format="flatten-objects">
+
+        <div class="row">
+          <div class="panel panel-primary">
+            <div class="panel-body">
+              <!-- Plausibility -->
+                   <p> Is this <b>Response</b> plausible (reasonable, on topic, could be true)?</b>
+                     <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-placement="top">
+                       <button type="button" class="btn btn-info btn-sm"
+                               title="To answer this question, read the Dialogue, the Questions and the Response. Is the Response in line with what you would expect given the dialogue and question?">info</button><br>
+                     </span>
+                      <crowd-radio-group>
+                          <crowd-radio-button name="plausible" value="Yes" id="collapseTrigger2" >Yes</crowd-radio-button>
+                          <crowd-radio-button name="not_plausible" value="No" id="collapseTrigger3">No</crowd-radio-button>
+                          <crowd-radio-button name="not_sure_plausible" value="Not sure" id="collapseTrigger3">Not Sure</crowd-radio-button>
+                      </crowd-radio-group>
+                  </p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="panel panel-primary">
+               <span class="collapse-text-1"></span>
+            <div class="panel-body" id="taskBody">
+              <!-- Groundedness -->
+                   <p> Does the <b>Response</b> or <b>a paraphrase of the Response</b> appear in the <b>Document?</b>
+                     <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-placement="top">
+                       <button type="button" class="btn btn-info btn-sm"
+                               title="To answer this question, read the Document and look for the Response. You are not looking for an exact match, for example pronouns might be resolved in the system response. You are looking for the information provided: is it in the Document or is it something that you cannot find anywhere in the Document?">info</button><br>
+                     </span>
+                      <crowd-radio-group>
+                          <crowd-radio-button name="grounded" value="Yes">Yes</crowd-radio-button>
+                          <crowd-radio-button name="not_grounded" value="No">No</crowd-radio-button>
+                          <crowd-radio-button name="not_sure_grounded" value="Not sure">Not Sure</crowd-radio-button>
+                      </crowd-radio-group>
+                  </p>
+              <!-- Document relevance -->
+                 <p> Does the <b>Document</b> provide an answer to the <b>Question</b>?
+                     <span class="d-inline-block" data-toggle="tooltip" data-placement="top">
+                       <button type="button" class="btn btn-info  btn-sm"
+                               title="To answer this question, you should look at the Document, the Dialogue and the Question only. The aim is to find an answer to Question in the Document. If you find an answer, select 'Yes'. If you don't find an answer, select 'No'. If you find an answer but you think that the information found in Document is incorrect, you still need to select 'Yes'. Remember, the Document is the only source of knowledge you must use to find an answer and the answer that you find in the Document might be different from the Response">info</button><br>
+                     </span>
+
+                      <crowd-radio-group>
+                          <crowd-radio-button name="relevant_doc" value="Yes" id="collapseTrigger4">Yes</crowd-radio-button>
+                          <crowd-radio-button name="irrelevant_doc" value="No" id="collapseTrigger5">No</crowd-radio-button>
+                          <crowd-radio-button name="not_sure_relevant_doc" value="Not sure" id="collapseTrigger5">Not Sure</crowd-radio-button>
+                      </crowd-radio-group>
+                  </p>
+
+                <!-- Document relevance -->
+                 <div class="panel-body" id="faithfulness">
+                   Does the <b>Response</b> follow from the <b>Dialogue</b> and the <b>Document</b>?<br>
+
+                      <crowd-radio-group>
+                          <crowd-radio-button name="faithful" value="Yes">Yes</crowd-radio-button>
+                          <crowd-radio-button name="not_faithful" value="No">No</crowd-radio-button>
+                          <crowd-radio-button name="not_sure_faithful" value="Not sure">Not Sure</crowd-radio-button>
+                      </crowd-radio-group>
+                  </p>
+                </div>
+              </div>
+
+          </div>
+        </div>
+    </crowd-form>
+
+</section>
+<link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+
+<script>
+
+// ---------------------------------------------------------
+// Create jQuery elements
+// ---------------------------------------------------------
+var dialogue = $('#dialogue');
+
+var makeDialogue = function(dialogueRaw) {
+    dialogue.empty();
+    let utterances = dialogueRaw.split("|");
+    for (let i = 0; i < utterances.length; i++) {
+
+        let div = ($('<div>')
+            .append($('<div>')
+            .css('text-align', i % 2 == 0 ? 'right' : 'left')
+                .html(i % 2 == 0 ? "<strong>User</strong>" : "<strong>System</strong>")
+                .append($('<div>')
+                    .addClass('well well-sm')
+                    .css('border-radius', '10px')
+                    .css('margin-left', i % 2 == 0 ? '200px' : '0px')
+                    .css('margin-right', i % 2 == 0 ? '0px' : '70px')
+                    .css('background-color', i % 2 == 0 ? '#ffffff' : '#792C82')
+                    .css('color', i % 2 == 0 ? '#0000000' : '#ffffff')
+                    .text(utterances[i])
+                    )
+            )
+        )
+        dialogue.append(div);
+    }
+}
+
+var makeTask = function() {
+    makeDialogue(dialogue.text());
+}
+
+
+// ---------------------------------------------------------
+// Event handlers
+// ---------------------------------------------------------
+
+// Instructions expand/collapse
+var content = $('#instructionBody');
+var content2 = $('#taskBody');
+var content3 = $('#DocumentBody');
+var content4 = $('#faithfulness');
+var trigger = $('#collapseTrigger');
+var trigger2 = $('#collapseTrigger2');
+var trigger3 = $('#collapseTrigger3');
+var trigger4= $('#collapseTrigger4');
+var trigger5= $('#collapseTrigger5');
+
+content.hide();
+content2.hide();
+content3.hide();
+content4.hide();
+$('.collapse-text').text('(Click to expand)');
+trigger.click(function(){
+    content.toggle();
+    var isVisible = content.is(':visible');
+    if(isVisible){
+        $('.collapse-text').text('(Click to collapse)');
+    }else{
+        $('.collapse-text').text('(Click to expand)');
+    }
+});
+
+$('.collapse-text-1').text('');
+trigger2.click(function(){
+    var isVisible = content2.is(':visible');
+    if(isVisible){
+        $('.collapse-text').text('');
+    }else{
+        content2.toggle();
+        content3.toggle();
+        }
+});
+
+trigger3.click(function(){
+    var isVisible = content3.is(':visible');
+    if(isVisible){
+        content2.toggle();
+        content3.toggle();
+        }
+});
+
+trigger4.click(function(){
+    var isVisible = content4.is(':visible');
+    if(isVisible){
+        $('.collapse-text').text('');
+        }else{
+        content4.toggle();}
+});
+
+trigger5.click(function(){
+    var isVisible = content4.is(':visible');
+    if(isVisible){
+        content4.toggle();
+        }
+});
+
+// ---------------------------------------------------------
+// Initialize
+// ---------------------------------------------------------
+
+makeTask();
+
+</script>
+</html>

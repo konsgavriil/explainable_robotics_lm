@@ -1,0 +1,33 @@
+WEBVTT
+
+1
+00:00:01.600 --> 00:00:06.000
+Alpha has been deployed by command and control to perform a survey starting from point 0.
+
+2
+00:00:10.000 --> 00:00:13.000
+Alpha has encountered obstacle C to its northwest and is executing a right turn to navigate around it.
+
+3
+00:00:14.500 --> 00:00:17.000
+Alpha has encountered obstacle E to its northeast and is executing a left turn to navigate around it.
+
+4
+00:00:20.000 --> 00:00:23.000
+Alpha is moving very fast on surface towards its next waypoint to complete its survey.
+
+5
+00:00:26.000 --> 00:00:29.700
+Alpha has encountered obstacle B in medium proximity to the northwest and is moving around from its right side.
+
+7
+00:00:40.000 --> 00:00:43.000
+Alpha has encountered obstacle A in medium proximity to the north and is moving around from its right side.
+
+8
+00:00:44.300 --> 00:00:50.000
+Alpha has visited the final waypoint of the survey and is now returning back to its starting point.
+
+9
+00:00:59.300 --> 00:01:02.000
+Alpha has reached its starting point and will stay idle to get picked up.
