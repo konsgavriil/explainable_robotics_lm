@@ -2,16 +2,17 @@
 <html lang="en">
 
 <link rel="stylesheet" type="text/css" href="style.css">
-<script src="script.js"></script>
 <script src="https://assets.crowd.aws/crowd-html-elements.js"></script>
 <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
     integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet" />
 <script src="https://code.jquery.com/jquery-3.1.0.min.js"
     integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
     integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
     crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+<script src="script.js"></script>
 
 <meta content="width=device-width,initial-scale=1" name="viewport" />
 <section class="container" id="Relevancy">
@@ -39,7 +40,7 @@
         <div class="question">
             <crowd-form answer-format="flatten-objects">
                 <p> </p>
-                <crowd-radio-group>
+                <crowd-radio-group id="questionOptions">
                     <crowd-radio-button name="option1" id="option1" value=""></crowd-radio-button>
                     <crowd-radio-button name="option2" id="option2" value=""></crowd-radio-button>
                     <crowd-radio-button name="option3" id="option3" value=""></crowd-radio-button>
@@ -49,13 +50,14 @@
         </div>
     </div>
 
-    <div class="question-container" id="explanationContainer">
+    <div class="explanation-container" id="explanationContainer">
         <div class="explanation">
             <crowd-form>
                 <div class="left">
                     <h3>Explanation</h3>
                     <crowd-card>
                         <div class="card" id="explanation">
+                            Please select a query.
                         </div>
                     </crowd-card>
                 </div>
@@ -63,43 +65,18 @@
                 <div class="right">
                     <h3 id="queryTitle"></h3>
             
-                    <select name="cfQuery" style="font-size: large" required>
+                    <select name="query" id="query" style="font-size: large" required>
                         <option value="">(Please select)</option>
-                        <option name="expOption1" id="expOption1" value=""></option>
-                        <option name="expOption2" id="expOption2" value=""></option>
-                        <option name="expOption3" id="expOption3" value=""></option>
-                        <option name="expOption4" id="expOption4" value=""></option>
+                        <option name="expOption1" id="expOption1" value="option1"></option>
+                        <option name="expOption2" id="expOption2" value="option2"></option>
+                        <option name="expOption3" id="expOption3" value="option3"></option>
                     </select>
                 </div>
+                <br>
+                <crowd-button form-action="submit" id="explanationButton">Continue</crowd-button>
             </crowd-form>
         </div>
     </div>
-
-    <!-- <div class="question-container" id="contrExplanationContainer">
-        <div class="explanation">
-            <crowd-form>
-                <div class="left">
-                    <h3>Explanation</h3>
-                    <crowd-card>
-                        <div class="card" id="contrExplanation">
-                        </div>
-                    </crowd-card>
-                </div>
-    
-                <div class="right">
-                    <h3>Select a query</h3>
-    
-                    <select name="contrQuery" style="font-size: large" required>
-                        <option value="">(Please select)</option>
-                        <option name="contrOption1" id="contrOption1" value=""></option>
-                        <option name="contrOption2" id="contrOption2" value=""></option>
-                        <option name="contrOption3" id="contrOption3" value=""></option>
-                        <option name="contrOption4" id="contrOption4" value=""></option>
-                    </select>
-                </div>
-            </crowd-form>
-        </div>
-    </div> -->
 
    <div class="row">
         <div class="panel panel-info">
@@ -110,7 +87,7 @@
                 <video controls width="1100" height="900" id="video">
                     <source src="videos/example.webm" type="video/webm">
                     <!-- The subtitles track -->
-                    <track src="subtitles/example.vtt" kind="subtitles" srclang="en" label="English" default>
+                    <track id ="subtitleTrack" src="subtitles/example.vtt" kind="subtitles" srclang="en" label="English" default>
                     <!-- Additional video sources can be added here for compatibility with different browsers -->
                     Your browser does not support the video tag.
                 </video>

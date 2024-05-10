@@ -125,7 +125,7 @@ input[disabled] {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #3f51b5;
+    background-color: #326be7;
     /* Blue background */
     color: white;
     /* White text color */
@@ -141,7 +141,7 @@ input[disabled] {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #6fb5ee;
+    background-color: #326be7;
     /* Blue background */
     color: white;
     display: none;
@@ -156,7 +156,24 @@ input[disabled] {
     margin-bottom: 20px;
 }
 
-/* h3 {
+.explanation-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #326be7;
+    /* Blue background */
+    color: rgb(8, 8, 8);
+    display: none;
+    /* White text color */
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 90%;
+    height: 40%;
+}
+
+h3 {
     margin-top: 0;
 }
 
@@ -169,14 +186,14 @@ crowd-card {
 }
 
 .left {
-    width: 70%;
+    width: 60%;
     margin-right: 10px;
     display: inline-block;
     height: 200px;
 }
 
 .right {
-    width: 20%;
+    width: 15%;
     height: 200px;
     display: inline-block;
-} */
+}
