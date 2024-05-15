@@ -15,12 +15,19 @@
 <meta content="width=device-width,initial-scale=1" name="viewport" />
 <section class="container" id="Relevancy">
     <div class="row">
-        <div class="panel panel-primary"><a class="panel-heading" href="javascript:void(0);" id="collapseTrigger"><strong>Task
+        <div class="panel panel-primary"><a class="panel-heading" href="javascript:void(0);"
+                id="collapseTrigger"><strong>Task
                     instructions</strong> <span class="collapse-text">(Click to expand)</span> </a>
-            <div class="panel-body" id="instructionBody"> In this user study, you are going to assume the role of an operator who is in charge of supervising an autonomous maritime robot. This means that you are in charge of overseeing the mission and ensuring that the integrity of the robot is not compromised. <br> <br>
-            	 <img src="images/c2_b.jpeg" alt="Command and Control" class="center"> <br><br>            
-                About the task itself, you are going to watch videos of robots that perform various tasks in a maritime domain. At random timesteps, you might be asked a question about the mission and you will need to select one of the available answers. If you are not sure about the answer, then you can use the hint button to get some help. Try answering without any help if you are certain about the answer, otherwise, use the hint to avoid doing wrong choices. <br> <br>
-                Let the user study begin! 
+            <div class="panel-body" id="instructionBody"> In this user study, you are going to assume the role of an
+                operator who is in charge of supervising an autonomous maritime robot. This means that you are in charge
+                of overseeing the mission and ensuring that the integrity of the robot is not compromised. <br> <br>
+                <img src="images/c2_b.jpeg" alt="Command and Control" class="center"> <br><br>
+                About the task itself, you are going to watch videos of robots that perform various tasks in a maritime
+                domain. At random timesteps, you might be asked a question about the mission and you will need to select
+                one of the available answers. If you are not sure about the answer, then you can use the hint button to
+                get some help. Try answering without any help if you are certain about the answer, otherwise, use the
+                hint to avoid doing wrong choices. <br> <br>
+                Let the user study begin!
             </div>
         </div>
     </div>
@@ -48,40 +55,40 @@
         </div>
     </div>
 
-    <div class="explanation-container" id="explanationContainer">
-        <div class="explanation">
-            <crowd-form>
-                <div class="left">
-                    <h3>Explanation</h3>
-                    <crowd-card>
-                        <div class="card" id="explanation">
-                            Please select a query.
-                        </div>
-                    </crowd-card>
-                </div>
-            
-                <div class="right">
-                    <h3 id="queryTitle"></h3>
-            
-                    <select name="query" id="query" style="font-size: large" required>
-                        <option id="expNoOption" value="">(Please select)</option>
-                        <option name="expOption1" id="expOption1" value="option1"></option>
-                        <option name="expOption2" id="expOption2" value="option2"></option>
-                        <option name="expOption3" id="expOption3" value="option3"></option>
-                    </select>
-                </div>
-                <br>
-                <crowd-button form-action="reset" id="explanationButton">Continue</crowd-button>
-                <crowd-button form-action="submit" hidden>Continue</crowd-button>
-                <!-- <crowd-button display="none" form-action="submit" id="explanationButton">Continue</crowd-button> -->
-            </crowd-form>
+    <div class="row">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">Scenario 1</div>
+            </div>
+            <div class="panel-body" id="exampleBody">
+                <video controls width="1100" height="900" id="video">
+                    <source src="https://zenodo.org/records/11153372/files/example.webm" type="video/webm">
+                    <track id="subtitleTrack" src="" kind="subtitles" srclang="en" label="English" default>
+                    Your browser does not support the video tag.
+                </video>
+            </div>
         </div>
     </div>
 
-   <div class="row">
+    <div class="row">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <div class="panel-title">Command and Control Interface</div>
+                <div class="panel-title">Scenario 2</div>
+            </div>
+            <div class="panel-body" id="exampleBody">
+                <video controls width="1100" height="900" id="video">
+                    <source src="https://zenodo.org/records/11153372/files/example.webm" type="video/webm">
+                    <track id="subtitleTrack" src="" kind="subtitles" srclang="en" label="English" default>
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">Scenario 3</div>
             </div>
             <div class="panel-body" id="exampleBody">
                 <video controls width="1100" height="900" id="video">
@@ -109,9 +116,11 @@
                                 title="An autonomous agent is a system or entity that can act independently, making decisions and taking actions without direct human intervention. These agents are typically designed to perform specific tasks or achieve particular goals within a given environment. They possess the ability to perceive their surroundings, process information, and execute actions based on their internal programming or learning mechanisms.">Info</button><br>
                         </span>
                         <crowd-radio-group>
-                            <crowd-radio-button name="very_familiar_ae" value="Very familiar">Very familiar</crowd-radio-button>
+                            <crowd-radio-button name="very_familiar_ae" value="Very familiar">Very
+                                familiar</crowd-radio-button>
                             <crowd-radio-button name="familiar_ae" value="Familiar">Familiar</crowd-radio-button>
-                            <crowd-radio-button name="not_familiar_ae" value="Not Familiar">Not Familiar</crowd-radio-button>
+                            <crowd-radio-button name="not_familiar_ae" value="Not Familiar">Not
+                                Familiar</crowd-radio-button>
                         </crowd-radio-group>
                     </p>
                     <!-- Situation awareness -->
@@ -120,11 +129,14 @@
                             <br>
                         </span>
                         <crowd-radio-group>
-                            <crowd-radio-button name="very_easy_decision_making" value="Very easy">Very easy</crowd-radio-button>
+                            <crowd-radio-button name="very_easy_decision_making" value="Very easy">Very
+                                easy</crowd-radio-button>
                             <crowd-radio-button name="easy_decision_making" value="Easy">Easy</crowd-radio-button>
-                            <crowd-radio-button name="intermediate_decision_making" value="Intermediate">Intermediate</crowd-radio-button>
+                            <crowd-radio-button name="intermediate_decision_making"
+                                value="Intermediate">Intermediate</crowd-radio-button>
                             <crowd-radio-button name="hard_decision_making" value="Hard">Hard</crowd-radio-button>
-                            <crowd-radio-button name="very_hard_decision_making" value="Very hard">Very hard</crowd-radio-button>
+                            <crowd-radio-button name="very_hard_decision_making" value="Very hard">Very
+                                hard</crowd-radio-button>
                         </crowd-radio-group>
                     </p>
                     <!-- Cognitive Load -->
@@ -135,7 +147,8 @@
                         <crowd-radio-group>
                             <crowd-radio-button name="cognitive_load_yes" value="Yes">Yes</crowd-radio-button>
                             <crowd-radio-button name="cognitive_load_no" value="No">No</crowd-radio-button>
-                            <crowd-radio-button name="cognitive_load_not_sure" value="Not Sure">Not sure</crowd-radio-button>
+                            <crowd-radio-button name="cognitive_load_not_sure" value="Not Sure">Not
+                                sure</crowd-radio-button>
                         </crowd-radio-group>
                     </p>
                     <!-- Explanation Effect on Cognitive Load -->
@@ -146,7 +159,8 @@
                         <crowd-radio-group>
                             <crowd-radio-button name="effect_load_yes" value="Yes">Yes</crowd-radio-button>
                             <crowd-radio-button name="effect_load_no" value="No">No</crowd-radio-button>
-                            <crowd-radio-button name="effect_load_not_sure" value="Not Sure">Not sure</crowd-radio-button>
+                            <crowd-radio-button name="effect_load_not_sure" value="Not Sure">Not
+                                sure</crowd-radio-button>
                         </crowd-radio-group>
                     </p>
                 </crowd-form>
@@ -154,4 +168,5 @@
         </div>
     </div>
 </section>
+
 </html>
