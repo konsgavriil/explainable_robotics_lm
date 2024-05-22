@@ -39,47 +39,45 @@
     </div>
 
     <div class="question-container" id="questionContainer">
-        <div class="question">
             <crowd-form answer-format="flatten-objects">
-                <p> </p>
+                <div class="question">
+                    <p> </p>
+                </div>
                 <crowd-radio-group id="questionOptions">
-                    <crowd-radio-button name="option1" id="option1" value=""></crowd-radio-button>
-                    <crowd-radio-button name="option2" id="option2" value=""></crowd-radio-button>
-                    <crowd-radio-button name="option3" id="option3" value=""></crowd-radio-button>
+                    <crowd-radio-button name="option1" id="option1" value="1"></crowd-radio-button>
+                    <crowd-radio-button name="option2" id="option2" value="2"></crowd-radio-button>
+                    <crowd-radio-button name="option3" id="option3" value="3"></crowd-radio-button>
                 </crowd-radio-group>
                 <crowd-button form-action="reset" id="questionButton">Continue</crowd-button>
                 <crowd-button form-action="submit" hidden>Continue</crowd-button>
             </crowd-form>
-        </div>
     </div>
 
     <div class="explanation-container" id="explanationContainer">
-        <div class="explanation">
-            <crowd-form>
-                <div class="left">
-                    <h3>Explanation</h3>
-                    <crowd-card>
-                        <div class="card" id="explanation">
-                            Please select a query.
-                        </div>
-                    </crowd-card>
-                </div>
+        <crowd-form>
+            <div class="left">
+                <h3>Explanation</h3>
+                <crowd-card>
+                    <div class="card" id="explanation">
+                        <p>Please select a query.</p>
+                    </div>
+                </crowd-card>
+            </div>
 
-                <div class="right">
-                    <h3 id="queryTitle"></h3>
+            <div class="right">
+                <h3 id="queryTitle"></h3>
 
-                    <select name="query" id="query" style="font-size: large" required>
-                        <option id="expNoOption" value="">(Please select)</option>
-                        <option name="expOption1" id="expOption1" value="option1"></option>
-                        <option name="expOption2" id="expOption2" value="option2"></option>
-                        <option name="expOption3" id="expOption3" value="option3"></option>
-                    </select>
-                </div>
-                <br>
-                <crowd-button form-action="reset" id="explanationButton">Continue</crowd-button>
-                <crowd-button form-action="submit" hidden>Continue</crowd-button>
-            </crowd-form>
-        </div>
+                <select name="query" id="query" style="font-size: large" required>
+                    <option id="expNoOption" value="">(Please select)</option>
+                    <option name="expOption1" id="expOption1" value="option1"></option>
+                    <option name="expOption2" id="expOption2" value="option2"></option>
+                    <option name="expOption3" id="expOption3" value="option3"></option>
+                </select>
+            </div>
+            <br>
+            <crowd-button form-action="reset" id="explanationButton">Continue</crowd-button>
+            <crowd-button form-action="submit" hidden>Continue</crowd-button>
+        </crowd-form>
     </div>
 
     <div class="row">
@@ -88,7 +86,7 @@
                 <div class="panel-title">Command and Control Interface</div>
             </div>
             <div class="panel-body" id="exampleBody">
-                <video controls width="1100" height="900" id="video">
+                <video controls width="900" height="700" id="video">
                     <source src="https://zenodo.org/records/11153372/files/example.webm" type="video/webm">
                     <track id="subtitleTrack" src="" kind="subtitles" srclang="en" label="English" default>
                     Your browser does not support the video tag.
@@ -167,7 +165,7 @@
 </section>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    var conditions = [4, 1, 2, 3];
+    var conditions = [4, 3, 1, 2];
     var condition = 0;
     var videoSequence = 0;
     var qTimestampIndex = 0;
@@ -737,7 +735,6 @@ input[disabled] {
     width: 50%;
 }
 
-/* Style for the message container */
 .message-container {
     position: fixed;
     top: 0;
@@ -745,23 +742,17 @@ input[disabled] {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    /* Semi-transparent black background */
     display: none;
-    /* Initially hide the message container */
     z-index: 9999;
-    /* Ensure the message appears above everything else */
 }
 
-/* Style for the message */
 .message {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: #326be7;
-    /* Blue background */
     color: white;
-    /* White text color */
     padding: 20px;
     border-radius: 10px;
     text-align: center;
@@ -775,17 +766,13 @@ input[disabled] {
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: #326be7;
-    /* Blue background */
     color: white;
     display: none;
-    /* White text color */
     padding: 20px;
     border-radius: 10px;
     text-align: center;
-    position: fixed;
 }
 
-/* Style for the question */
 .question {
     margin-bottom: 20px;
 }
@@ -796,16 +783,13 @@ input[disabled] {
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: #326be7;
-    /* Blue background */
     color: rgb(8, 8, 8);
     display: none;
-    /* White text color */
     padding: 20px;
     border-radius: 10px;
     text-align: center;
     width: 90%;
     height: 40%;
-    position: fixed;
 }
 
 h3 {

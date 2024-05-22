@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video with Multiple Choice Question</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Video Content -->
+    <div id="video-container">
+        <video id="video" width="600" controls>
+            <source src="your-video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Overlay and Question Container -->
+    <div id="overlay">
+        <div id="question-container">
+            <h2>Multiple Choice Question</h2>
+            <p>What is the capital of France?</p>
+            <form id="question-form">
+                <label>
+                    <input type="radio" name="answer" value="Paris"> Paris
+                </label><br>
+                <label>
+                    <input type="radio" name="answer" value="London"> London
+                </label><br>
+                <label>
+                    <input type="radio" name="answer" value="Berlin"> Berlin
+                </label><br>
+                <label>
+                    <input type="radio" name="answer" value="Madrid"> Madrid
+                </label><br><br>
+                <button type="button" onclick="submitAnswer()">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+
+#video-container {
+    position: relative;
+}
+
+#overlay {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#question-container {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+</style>
+
+<script>
+document.getElementById('video').addEventListener('timeupdate', function() {
+    var currentTime = this.currentTime;
+    if (currentTime >= 5 && currentTime <= 10) { // Show question at 5-10 seconds
+        showQuestion();
+    }
+});
+
+function showQuestion() {
+    document.getElementById('overlay').style.display = 'flex';
+    document.getElementById('video').pause();
+}
+
+function submitAnswer() {
+    const form = document.getElementById('question-form');
+    const selectedAnswer = form.elements['answer'].value;
+    alert('You selected: ' + selectedAnswer);
+    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('video').play();
+}
+
+</script>
+</html>
+
+
+
+
