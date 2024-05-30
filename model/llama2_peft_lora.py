@@ -73,6 +73,7 @@ base_model = AutoModelForCausalLM.from_pretrained(
     device_map="auto",
     trust_remote_code=True,
     token=True,
+    force_download=False,
 )
 
 base_model.config.use_cache = False

@@ -44,6 +44,6 @@ for index, row in new_df.iterrows():
 print("Saving inferenced dataframe...")
 inferenced_df = pd.DataFrame.from_dict(output_dict)
 print("Saving wandb log...")
-wandb.init(project="xarlm", name="xarlm_all_types_inference")
+wandb.init(project="xarlm_gemma", name="xarlm_all_types_inference")
 wandb.log({"dataset": wandb.Table(dataframe=inferenced_df)})
 wandb.finish()
