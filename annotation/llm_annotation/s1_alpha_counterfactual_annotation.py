@@ -128,10 +128,7 @@ class GPT3Annotator:
                 prompt = self.formulate_prompt(survey_obs_avoid_instruction, self.data.iloc[i, 14])
             elif "waypt_survey" in self.data.iloc[i, 13]:
                 prompt = self.formulate_prompt(survey_instruction, self.data.iloc[i, 14])
-            # print(prompt)
             response = openai.ChatCompletion.create(model="gpt-3.5-turbo", engine=deployment_name, messages=[{"role": "user", "content": prompt}])
-            # print(response.choices[0].message.content)
-            # print("Done")
             explanation = response.choices[0].message.content
             self.data.at[i, "explanation"] = explanation
             time.sleep(10)

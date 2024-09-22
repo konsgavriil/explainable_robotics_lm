@@ -120,6 +120,11 @@ document.addEventListener('DOMContentLoaded', function () {
     closingBody.hide();
     content.hide();
 
+    // Add an event listener for the 'play' event
+    video.addEventListener('play', function () {
+        // Disable the controls
+        video.controls = false;
+    });
 
     $('.collapse-text').text('(Click to expand)');
     trigger.click(function () {

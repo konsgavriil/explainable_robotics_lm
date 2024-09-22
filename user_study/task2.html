@@ -54,6 +54,8 @@
                             <crowd-radio-button name="option1" id="scenario1Option1" value=""></crowd-radio-button>
                             <crowd-radio-button name="option2" id="scenario1Option2" value=""></crowd-radio-button>
                             <crowd-radio-button name="option3" id="scenario1Option3" value=""></crowd-radio-button>
+                            <crowd-radio-button name="option4" id="scenario1Option4" value="all_of_the_above">All of the above</crowd-radio-button>
+                            <crowd-radio-button name="option5" id="scenario1Option5" value="none_of_the_above">None of the above</crowd-radio-button>
                         </crowd-radio-group>
                         <crowd-button form-action="reset" id="answerButton1">Continue</crowd-button>
                         <crowd-button form-action="submit" hidden>Continue</crowd-button>
@@ -83,6 +85,8 @@
                             <crowd-radio-button name="option1" id="scenario2Option1" value=""></crowd-radio-button>
                             <crowd-radio-button name="option2" id="scenario2Option2" value=""></crowd-radio-button>
                             <crowd-radio-button name="option3" id="scenario2Option3" value=""></crowd-radio-button>
+                            <crowd-radio-button name="option4" id="scenario2Option4" value="all_of_the_above">All of the above</crowd-radio-button>
+                            <crowd-radio-button name="option5" id="scenario2Option5" value="none_of_the_above">None of the above</crowd-radio-button>
                         </crowd-radio-group>
                         <crowd-button form-action="reset" id="answerButton2">Continue</crowd-button>
                         <crowd-button form-action="submit" hidden>Continue</crowd-button>
@@ -107,21 +111,25 @@
                 </div>
                 <div class="crowd-form-container">
                     <crowd-form answer-format="flatten-objects">
+                        <input type="hidden" name="questionHiddenInput" id="questionHiddenInput" value="" />
                         <p></p>
                         <crowd-radio-group id="scenario3Options">
                             <crowd-radio-button name="option1" id="scenario3Option1" value=""></crowd-radio-button>
                             <crowd-radio-button name="option2" id="scenario3Option2" value=""> </crowd-radio-button>
                             <crowd-radio-button name="option3" id="scenario3Option3" value=""></crowd-radio-button>
+                            <crowd-radio-button name="option4" id="scenario3Option4" value="all_of_the_above">All of the above</crowd-radio-button>
+                            <crowd-radio-button name="option5" id="scenario3Option5" value="none_of_the_above">None of the above</crowd-radio-button>
                         </crowd-radio-group>
-                        <crowd-button form-action="reset" id="answerButton3">Continue</crowd-button>
-                        <crowd-button form-action="submit" hidden>Continue</crowd-button>
+                        <!-- <crowd-button form-action="reset" id="answerButton3">Continue</crowd-button>
+                        <crowd-button form-action="submit" hidden>Continue</crowd-button> -->
+                        <crowd-button form-action="submit" id="answerButton3">Submit</crowd-button>
                     </crowd-form>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row">
+    <!-- <div class="row">
         <div class="panel panel-info">
             <div class="panel-heading">
                 <div class="panel-title">Closing Questions</div>
@@ -129,7 +137,6 @@
             <div class="panel-body" id="closingBody">
                 <crowd-form answer-format="flatten-objects">
                     <input type="hidden" name="questionHiddenInput" id="questionHiddenInput" value="" />
-                    <!-- Satisfaction -->
                     <p> How satisfied are you with the explanations provided during this study?
                         <span class="d-inline-block" data-toggle="tooltip" data-placement="top">
                             <br>
@@ -142,7 +149,6 @@
                             <crowd-radio-button name="not_satisfied_q1" value="Not satisfied">Not satisfied</crowd-radio-button>
                         </crowd-radio-group>
                     </p>
-                    <!-- Good trait -->
                     <p> What did you like about the explanations you chose?</b>
                         <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-placement="top">
                             <br>
@@ -155,7 +161,6 @@
                             <crowd-radio-button name="nothing_q2" value="Nothing">Nothing</crowd-radio-button>
                         </crowd-radio-group>
                     </p>
-                    <!-- Bad trait -->
                     <p> Is there anything you did not like about the explanations you chose?
                         <span class="d-inline-block" data-toggle="tooltip" data-placement="top">
                             <br>
@@ -168,7 +173,6 @@
                             <crowd-radio-button name="nothing_q3" value="Nothing">Nothing</crowd-radio-button>
                         </crowd-radio-group>
                     </p>
-                    <!-- Context -->
                     <p> In what context would you find these explanations most useful?
                         <span class="d-inline-block" data-toggle="tooltip" data-placement="top">
                             <br>
@@ -183,7 +187,7 @@
                 </crowd-form>
             </div>
         </div>
-    </div>
+    </div> -->
 </section>
 
 </html>

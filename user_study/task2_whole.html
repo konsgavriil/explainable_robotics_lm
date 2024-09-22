@@ -27,8 +27,6 @@
                     <li>For each scenario, review the provided materials and select the explanation you believe most
                         effectively conveys the
                         events.</li>
-                    <li>After completing all three scenarios, you will answer some closing questions to conclude the
-                        study.</li>
                 </ol>
                 <br>
                 Let the user study begin!
@@ -48,19 +46,24 @@
                     <div class="text">
                         <h3>Scenario 1 Description</h3>
                         <p></p>
+                        <h3>Instructions</h3>
+                        <p>If you were asked the following question, which of the answers below would you prefer? Please note, all of the answers
+                        are correct.</p>
+                        <div class="crowd-form-container">
+                            <crowd-form answer-format="flatten-objects">
+                                <p></p>
+                                <crowd-radio-group id="scenario1Options">
+                                    <crowd-radio-button name="option1" id="scenario1Option1" value=""></crowd-radio-button>
+                                    <crowd-radio-button name="option2" id="scenario1Option2" value=""></crowd-radio-button>
+                                    <crowd-radio-button name="option3" id="scenario1Option3" value=""></crowd-radio-button>
+                                    <crowd-radio-button name="option4" id="scenario1Option4" value="all_of_the_above">All of the above</crowd-radio-button>
+                                    <crowd-radio-button name="option5" id="scenario1Option5" value="none_of_the_above">None of the above</crowd-radio-button>
+                                </crowd-radio-group>
+                                <crowd-button form-action="reset" id="answerButton1">Continue</crowd-button>
+                                <crowd-button form-action="submit" hidden>Continue</crowd-button>
+                            </crowd-form>
+                        </div>
                     </div>
-                </div>
-                <div class="crowd-form-container">
-                    <crowd-form answer-format="flatten-objects">
-                        <p></p>
-                        <crowd-radio-group id="scenario1Options">
-                            <crowd-radio-button name="option1" id="scenario1Option1" value=""></crowd-radio-button>
-                            <crowd-radio-button name="option2" id="scenario1Option2" value=""></crowd-radio-button>
-                            <crowd-radio-button name="option3" id="scenario1Option3" value=""></crowd-radio-button>
-                        </crowd-radio-group>
-                        <crowd-button form-action="reset" id="answerButton1">Continue</crowd-button>
-                        <crowd-button form-action="submit" hidden>Continue</crowd-button>
-                    </crowd-form>
                 </div>
             </div>
         </div>
@@ -77,19 +80,24 @@
                     <div class="text">
                         <h3>Scenario 2 Description</h3>
                         <p></p>
+                        <h3>Instructions</h3>
+                        <p>If you were asked the following question, which of the answers below would you prefer? Please note, all of the
+                            answers are correct.</p>
+                        <div class="crowd-form-container">
+                            <crowd-form answer-format="flatten-objects">
+                                <p></p>
+                                <crowd-radio-group id="scenario2Options">
+                                    <crowd-radio-button name="option1" id="scenario2Option1" value=""></crowd-radio-button>
+                                    <crowd-radio-button name="option2" id="scenario2Option2" value=""></crowd-radio-button>
+                                    <crowd-radio-button name="option3" id="scenario2Option3" value=""></crowd-radio-button>
+                                    <crowd-radio-button name="option4" id="scenario2Option4" value="all_of_the_above">All of the above</crowd-radio-button>
+                                    <crowd-radio-button name="option5" id="scenario2Option5" value="none_of_the_above">None of the above</crowd-radio-button>
+                                </crowd-radio-group>
+                                <crowd-button form-action="reset" id="answerButton2">Continue</crowd-button>
+                                <crowd-button form-action="submit" hidden>Continue</crowd-button>
+                            </crowd-form>
+                        </div>
                     </div>
-                </div>
-                <div class="crowd-form-container">
-                    <crowd-form answer-format="flatten-objects">
-                        <p></p>
-                        <crowd-radio-group id="scenario2Options">
-                            <crowd-radio-button name="option1" id="scenario2Option1" value=""></crowd-radio-button>
-                            <crowd-radio-button name="option2" id="scenario2Option2" value=""></crowd-radio-button>
-                            <crowd-radio-button name="option3" id="scenario2Option3" value=""></crowd-radio-button>
-                        </crowd-radio-group>
-                        <crowd-button form-action="reset" id="answerButton2">Continue</crowd-button>
-                        <crowd-button form-action="submit" hidden>Continue</crowd-button>
-                    </crowd-form>
                 </div>
             </div>
         </div>
@@ -106,93 +114,25 @@
                     <div class="text">
                         <h3>Scenario 3 Description</h3>
                         <p></p>
+                        <h3>Instructions</h3>
+                        <p>If you were asked the following question, which of the answers below would you prefer? Please note, all of the
+                            answers are correct.</p>
+                        <div class="crowd-form-container">
+                            <crowd-form answer-format="flatten-objects">
+                                <input type="hidden" name="questionHiddenInput" id="questionHiddenInput" value="" />
+                                <p></p>
+                                <crowd-radio-group id="scenario3Options">
+                                    <crowd-radio-button name="option1" id="scenario3Option1" value=""></crowd-radio-button>
+                                    <crowd-radio-button name="option2" id="scenario3Option2" value=""> </crowd-radio-button>
+                                    <crowd-radio-button name="option3" id="scenario3Option3" value=""></crowd-radio-button>
+                                    <crowd-radio-button name="option4" id="scenario3Option4" value="all_of_the_above">All of the above</crowd-radio-button>
+                                    <crowd-radio-button name="option5" id="scenario3Option5" value="none_of_the_above">None of the above</crowd-radio-button>
+                                </crowd-radio-group>
+                                <crowd-button form-action="submit" id="answerButton3">Submit</crowd-button>
+                            </crowd-form>
+                        </div>
                     </div>
                 </div>
-                <div class="crowd-form-container">
-                    <crowd-form answer-format="flatten-objects">
-                        <p></p>
-                        <crowd-radio-group id="scenario3Options">
-                            <crowd-radio-button name="option1" id="scenario3Option1" value=""></crowd-radio-button>
-                            <crowd-radio-button name="option2" id="scenario3Option2" value=""> </crowd-radio-button>
-                            <crowd-radio-button name="option3" id="scenario3Option3" value=""></crowd-radio-button>
-                        </crowd-radio-group>
-                        <crowd-button form-action="reset" id="answerButton3">Continue</crowd-button>
-                        <crowd-button form-action="submit" hidden>Continue</crowd-button>
-                    </crowd-form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <div class="panel-title">Closing Questions</div>
-            </div>
-            <div class="panel-body" id="closingBody">
-                <crowd-form answer-format="flatten-objects">
-                    <input type="hidden" name="questionHiddenInput" id="questionHiddenInput" value="" />
-                    <!-- Satisfaction -->
-                    <p> How satisfied are you with the explanations provided during this study?
-                        <span class="d-inline-block" data-toggle="tooltip" data-placement="top">
-                            <br>
-                        </span>
-                        <crowd-radio-group>
-                            <crowd-radio-button name="very_satisfied_q1" value="Very satisfied">Very
-                                satisfied</crowd-radio-button>
-                            <crowd-radio-button name="Satisfied_q1" value="Satisfied">Satisfied</crowd-radio-button>
-                            <crowd-radio-button name="somewhat_satisfied_q1" value="Somewhat satisfied">Somewhat
-                                satisfied</crowd-radio-button>
-                            <crowd-radio-button name="not_satisfied_q1" value="Not satisfied">Not
-                                satisfied</crowd-radio-button>
-                        </crowd-radio-group>
-                    </p>
-                    <!-- Good trait -->
-                    <p> What did you like about the explanations you chose?</b>
-                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-placement="top">
-                            <br>
-                        </span>
-                        <crowd-radio-group>
-                            <crowd-radio-button name="content_accuracy_q2" value="Content accuracy">Content
-                                accuracy</crowd-radio-button>
-                            <crowd-radio-button name="verbosity_q2" value="Verbosity">Verbosity</crowd-radio-button>
-                            <crowd-radio-button name="syntax_q2" value="Syntax">Syntax</crowd-radio-button>
-                            <crowd-radio-button name="explanation_style_q2" value="Explanation style">Explanation
-                                style</crowd-radio-button>
-                            <crowd-radio-button name="nothing_q2" value="Nothing">Nothing</crowd-radio-button>
-                        </crowd-radio-group>
-                    </p>
-                    <!-- Bad trait -->
-                    <p> Is there anything you did not like about the explanations you chose?
-                        <span class="d-inline-block" data-toggle="tooltip" data-placement="top">
-                            <br>
-                        </span>
-                        <crowd-radio-group>
-                            <crowd-radio-button name="content_accuracy_q3" value="Content accuracy">Content
-                                accuracy</crowd-radio-button>
-                            <crowd-radio-button name="verbosity_q3" value="Verbosity">Verbosity</crowd-radio-button>
-                            <crowd-radio-button name="syntax_q3" value="Syntax">Syntax</crowd-radio-button>
-                            <crowd-radio-button name="explanation_style_q3" value="Explanation style">Explanation
-                                style</crowd-radio-button>
-                            <crowd-radio-button name="nothing_q3" value="Nothing">Nothing</crowd-radio-button>
-                        </crowd-radio-group>
-                    </p>
-                    <!-- Context -->
-                    <p> In what context would you find these explanations most useful?
-                        <span class="d-inline-block" data-toggle="tooltip" data-placement="top">
-                            <br>
-                        </span>
-                        <crowd-radio-group>
-                            <crowd-radio-button name="objective_progression_q4" value="Objective progression">Objective
-                                progression</crowd-radio-button>
-                            <crowd-radio-button name="unexpected_events_q4" value="Unexpected events">Unexpected
-                                events</crowd-radio-button>
-                            <crowd-radio-button name="behaviour_change_q4" value="Behaviour change">Behaviour
-                                change</crowd-radio-button>
-                            <crowd-radio-button name="Nowhere_q4" value="Nowhere">Nowhere</crowd-radio-button>
-                        </crowd-radio-group>
-                    </p>
-                </crowd-form>
             </div>
         </div>
     </div>
@@ -308,7 +248,7 @@ input[disabled] {
 .panel-body {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: left;
     /* Center align the radio group */
 }
 
@@ -346,7 +286,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var conditions = [3, 1, 2];
     var content = $('#instructionBody');
     var trigger = $('#collapseTrigger');
-    var closingBody = $('#closingBody');
+    // var closingBody = $('#closingBody');
     var scenario1 = $('#scenario1Body');
     var scenario2 = $('#scenario2Body');
     var scenario3 = $('#scenario3Body');
@@ -363,16 +303,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const randomIndex = Math.floor(Math.random() * 2);
     const images_a = ['https://zenodo.org/records/11214735/files/causal2.png', 'https://zenodo.org/records/11214735/files/counterfactual2.png', 'https://zenodo.org/records/11214735/files/contrastive1.png'];
     const images_b = ['https://zenodo.org/records/11214735/files/causal1.png', 'https://zenodo.org/records/11214735/files/counterfactual1.png', 'https://zenodo.org/records/11214735/files/contrastive2.png'];
-    const descriptions_a = ['Gilda was loitering on the right side and is about to exchange its loiter area with Henry. At the moment, the vessel is moving towards point 1 that is located southwest of it using the same heading. At the moment, Gilda is away from any obstacles or vessels and does not need to modify its trajectory for avoidance.', 'On its way towards a loiter area, Henry stops at a specific location to perform a GPS fix. This means that the longitude and latitude of the vessel is staying the same, but its depth is decreasing as the vessel is moving towards the surface to receive a signal. Which of the following explanations do you prefer for answering the corresponding query?', "Alpha is moving towards the final waypoint of the survey (point 2) while avoiding an obstacle. Once, the vessel has visited all waypoints, it has to return back to its starting point to be retrieved. The following query asks why the vessel hasn't already activated its return behaviour.Please select the explanation that best answers the question."];
-    const descriptions_b = ['Henry is performing a survey in a bowtie pattern and is moving towards point 2 that is located northwest of the vessel. Select the explanation that best describes the current state of the autonomous underwater vehicle.', "After finishing its survey, Alpha is moving towards its starting point for pick up. If it's return is cancelled, then the vessel is programmed to restart its survey again.Select the explanation that best describes this alternative outcome.", 'In this scenario, Gilda avoids obstacles and contact collision simultaneously. The vessel is programmed to solve these unexpected outcomes using predefined protocols. However, these protocols do not include an immediate return towards the starting point, unless if instructed by command and control. Select the explanation that best justifies why the vessel is not returning back.'];
+    const descriptions_a = ['Gilda was loitering on the right side and is about to exchange its loiter area with Henry. At the moment, the vessel is moving towards point 1 that is located southwest of it using the same heading. At the moment, Gilda is away from any obstacles or vessels and does not need to modify its trajectory for avoidance.', 'On its way towards a loiter area, Henry stops at a specific location to perform a GPS fix. This means that the longitude and latitude of the vessel is staying the same, but its depth is decreasing as the vessel is moving towards the surface to receive a signal.', "Alpha is moving towards the final waypoint of the survey (point 2) while avoiding an obstacle. Once, the vessel has visited all waypoints, it has to return back to its starting point to be retrieved."];
+    const descriptions_b = ['Henry is performing a survey in a bowtie pattern and is moving towards point 2 that is located northwest of the vessel.', "After finishing its survey, Alpha is moving towards its starting point for pick up. If it's return is cancelled, then the vessel is programmed to restart its survey again.", 'In this scenario, Gilda avoids obstacles and contact collision simultaneously. The vessel is programmed to solve these unexpected outcomes using predefined protocols. However, these protocols do not include an immediate return towards the starting point, unless if instructed by command and control.'];
     const options1_a = ["Gilda is currently in the process of loitering fast towards point 1 with a southwest heading. Since there is a new loiter area available, Gilda's active behavior is influenced to continue loitering rather than returning to the starting point.Additionally, there is an obstacle at a very far distance and another vessel at a far distance, so there is no need for Gilda to avoid them.", 'The vessel has pinpointed its position and is now ready to continue its mission.', 'Alpha still needs to visit point 2 before returning back to its starting point.'];
     const options2_a = ['Gilda is in the process of exchanging loiter areas with Henry. This means it will have to go through multiple obstacles and possibly avoid collision with another vessel.', "If the vehicle is at the surface and has received a GPS update, it means that the vessel has successfully surfaced to provide new GPS coordinates to the command and control. This indicates that the vessel is ready to continue its mission.", 'At the moment, Alpha is moving towards point 2 while avoiding obstacle A to accomplish its objective and stay safe. Once, the vessel has reached its next waypoint, then it will start returning back for recovery.'];
     const options3_a = ['Gilda is about to move towards the left side of the map and loiter around using a new set of waypoints.', 'If Henry is at the surface and has received a GPS update, then it should be able to move towards the loiter area and continue its mission.', "Alpha is currently deployed to perform its objective, which is to move towards point 2 with a northwest heading and at a very fast speed. However, there is an obstacle named obstacle_a nearby in the southeast direction. Since the obstacle is not resolved and the proximity is close, alpha has activated the waypt_survey,avoid_obstacle_avoid_obstacle_a behavior to survey the area while avoiding the obstacle. This behavior allows alpha to continue towards its objective while ensuring safety and avoiding the obstacle."];
     const options1_b = ["Henry is in transit towards point 2 in the northwest, conducting a survey while consistently maintaining an approved depth range. As a result, the vessel is moving very fast under sea level but with a southwest heading as it turns around.", 'If Alpha no longer returns for pick up, it will circle around and start moving between the waypoints again.', 'The vessel needs a command by the operators to return back. At the moment, the vessel continues to fulfill its objectives while avoiding obstacles and other vessels.'];
     const options2_b = ['Henry is performing a survey and moving towards waypoint 2.', "If Alpha is no longer returning to its starting position, it would continue surveying the area without any intention of going back. There are no obstacles present and all previous obstacles have been resolved.", 'Gilda has not been instructed yet to return back, as a result, it continues to loiter while replanning its trajectory.'];
     const options3_b = ['Henry is moving under the water towards point 2 that is located northwest while surveying an area.', "If Alpha's return state is deactivated, then the vessel will continue surveying the area while also avoiding any present obstacles.", "If Gilda were to return instead of loitering while avoiding obstacles and vessels, it would need a command to return to its starting point. This alternative behavior would interrupt its current behavior of loitering and collision avoidance."];
-    const queries_a = ['Please select the causal explanation that you think explains these events the best:', 'What if the vehicle is at the surface and has received a GPS update?', 'Why is alpha surveying the area while avoiding obstacle_a instead of returning to its starting point?'];
-    const queries_b = ['Please select the causal explanation that you think explains these events the best:', 'What if Alpha is no longer returning to its starting position?', 'Why not Return instead of loiter,avd_obstacles_avd_obstacles_ob_2,avd_obstacles_avd_obstacles_ob_3,avdcol_henry?'];
+    const queries_a = ['What is the vessel currently doing?', 'What if the vehicle is at the surface and has received a GPS update?', 'Why is alpha surveying the area while avoiding obstacle_a instead of returning to its starting point?'];
+    const queries_b = ['What is the vessel currently doing?', 'What if Alpha is no longer returning to its starting position?', "Why isn't Gilda returning to the starting point? Instead, she avoids obstacles 2 and 3, and Henry, while loitering."];
     var images = [];
     var descriptions = [];
     var queries = [];
@@ -395,12 +335,18 @@ document.addEventListener('DOMContentLoaded', function () {
     var scenario1Option1 = document.getElementById('scenario1Option1');
     var scenario1Option2 = document.getElementById('scenario1Option2');
     var scenario1Option3 = document.getElementById('scenario1Option3');
+    var scenario1Option4 = document.getElementById('scenario1Option4');
+    var scenario1Option5 = document.getElementById('scenario1Option5');
     var scenario2Option1 = document.getElementById('scenario2Option1');
     var scenario2Option2 = document.getElementById('scenario2Option2');
     var scenario2Option3 = document.getElementById('scenario2Option3');
+    var scenario2Option4 = document.getElementById('scenario2Option4');
+    var scenario2Option5 = document.getElementById('scenario2Option5');
     var scenario3Option1 = document.getElementById('scenario3Option1');
     var scenario3Option2 = document.getElementById('scenario3Option2');
     var scenario3Option3 = document.getElementById('scenario3Option3');
+    var scenario3Option4 = document.getElementById('scenario3Option4');
+    var scenario3Option5 = document.getElementById('scenario3Option5');
     var scenarioImage = null;
     var scenarioDescription = null;
     var scenarioQuery = null;
@@ -416,12 +362,18 @@ document.addEventListener('DOMContentLoaded', function () {
     scenario1Option1.addEventListener('click', handleRadioClick);
     scenario1Option2.addEventListener('click', handleRadioClick);
     scenario1Option3.addEventListener('click', handleRadioClick);
+    scenario1Option4.addEventListener('click', handleRadioClick);
+    scenario1Option5.addEventListener('click', handleRadioClick);
     scenario2Option1.addEventListener('click', handleRadioClick);
     scenario2Option2.addEventListener('click', handleRadioClick);
     scenario2Option3.addEventListener('click', handleRadioClick);
+    scenario2Option4.addEventListener('click', handleRadioClick);
+    scenario2Option5.addEventListener('click', handleRadioClick);
     scenario3Option1.addEventListener('click', handleRadioClick);
     scenario3Option2.addEventListener('click', handleRadioClick);
     scenario3Option3.addEventListener('click', handleRadioClick);
+    scenario3Option4.addEventListener('click', handleRadioClick);
+    scenario3Option5.addEventListener('click', handleRadioClick);
 
     function handleRadioClick(event) {
         selectedOption = event.target.value;
@@ -447,7 +399,6 @@ document.addEventListener('DOMContentLoaded', function () {
         options3 = options3_b;
     }
     qList.push(series);
-    closingBody.hide();
     scenario2.hide();
     scenario3.hide();
     selectScenario();
@@ -481,9 +432,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     answerButton3.addEventListener('click', function () {
-        scenario3.hide();
-        closingBody.show();
-        closingBody.focus();
         qList.push(selectedOption);
         qHiddenInput.value = qList;
     });

@@ -270,10 +270,7 @@ class GPT3Annotator:
                 prompt = self.formulate_prompt(loiter_obs_avd_instruction, self.data.iloc[i, 17])
             elif "loiter" in self.data.iloc[i, 16]:
                 prompt = self.formulate_prompt(loiter_instruction, self.data.iloc[i, 17])
-            # print(prompt)
             response = openai.ChatCompletion.create(model="gpt-3.5-turbo", engine=deployment_name, messages=[{"role": "user", "content": prompt}])
-            # print(response.choices[0].message.content)
-            # print("Done")
             explanation = response.choices[0].message.content
             self.data.at[i, "explanation"] = explanation
             time.sleep(10)

@@ -114,10 +114,7 @@ class GPT3Annotator:
                 prompt = self.formulate_prompt(survey_instruction, self.data.iloc[i, 21], self.data.iloc[i, 20])
             elif "maxdepth,waypt_return,bhv_const_depth" in self.data.iloc[i, 15]:
                 prompt = self.formulate_prompt(return_instruction, self.data.iloc[i, 21], self.data.iloc[i, 20])
-            print(prompt)
             response = openai.ChatCompletion.create(model="gpt-3.5-turbo", engine=deployment_name, messages=[{"role": "user", "content": prompt}])
-            print(response.choices[0].message.content)
-            print("Done")
             explanation = response.choices[0].message.content
             self.data.at[i, "explanation"] = explanation
             time.sleep(10)

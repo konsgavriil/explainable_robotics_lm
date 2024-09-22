@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var conditions = [3, 1, 2];
     var content = $('#instructionBody');
     var trigger = $('#collapseTrigger');
-    var closingBody = $('#closingBody'); 
+    // var closingBody = $('#closingBody'); 
     var scenario1 = $('#scenario1Body'); 
     var scenario2 = $('#scenario2Body'); 
     var scenario3 = $('#scenario3Body'); 
@@ -52,12 +52,18 @@ document.addEventListener('DOMContentLoaded', function () {
     var scenario1Option1 = document.getElementById('scenario1Option1');
     var scenario1Option2 = document.getElementById('scenario1Option2');
     var scenario1Option3 = document.getElementById('scenario1Option3');
+    var scenario1Option4 = document.getElementById('scenario1Option4');
+    var scenario1Option5 = document.getElementById('scenario1Option5');
     var scenario2Option1 = document.getElementById('scenario2Option1');
     var scenario2Option2 = document.getElementById('scenario2Option2');
     var scenario2Option3 = document.getElementById('scenario2Option3');
+    var scenario2Option4 = document.getElementById('scenario2Option4');
+    var scenario2Option5 = document.getElementById('scenario2Option5');
     var scenario3Option1 = document.getElementById('scenario3Option1');
     var scenario3Option2 = document.getElementById('scenario3Option2');
     var scenario3Option3 = document.getElementById('scenario3Option3');
+    var scenario3Option4 = document.getElementById('scenario3Option4');
+    var scenario3Option5 = document.getElementById('scenario3Option5');
     var scenarioImage = null;
     var scenarioDescription = null;
     var scenarioQuery = null;
@@ -73,12 +79,18 @@ document.addEventListener('DOMContentLoaded', function () {
     scenario1Option1.addEventListener('click', handleRadioClick);
     scenario1Option2.addEventListener('click', handleRadioClick);
     scenario1Option3.addEventListener('click', handleRadioClick);
+    scenario1Option4.addEventListener('click', handleRadioClick);
+    scenario1Option5.addEventListener('click', handleRadioClick);
     scenario2Option1.addEventListener('click', handleRadioClick);
     scenario2Option2.addEventListener('click', handleRadioClick);
     scenario2Option3.addEventListener('click', handleRadioClick);
+    scenario2Option4.addEventListener('click', handleRadioClick);
+    scenario2Option5.addEventListener('click', handleRadioClick);
     scenario3Option1.addEventListener('click', handleRadioClick);
     scenario3Option2.addEventListener('click', handleRadioClick);
     scenario3Option3.addEventListener('click', handleRadioClick);
+    scenario3Option4.addEventListener('click', handleRadioClick);
+    scenario3Option5.addEventListener('click', handleRadioClick);
 
     function handleRadioClick(event) {
         selectedOption = event.target.value;
@@ -104,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
         options3 = options3_b;
     }
     qList.push(series);
-    closingBody.hide();
+    // closingBody.hide();
     scenario2.hide();
     scenario3.hide();
     selectScenario();
@@ -138,9 +150,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     answerButton3.addEventListener('click', function () {
-        scenario3.hide();
-        closingBody.show();
-        closingBody.focus();
+        // scenario3.hide();
+        // closingBody.show();
+        // closingBody.focus();
         qList.push(selectedOption);
         qHiddenInput.value = qList;
     });
