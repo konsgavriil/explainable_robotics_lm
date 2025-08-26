@@ -1,0 +1,64 @@
+Explanation_Style,Situation_Awareness
+Counterfactual,0.666
+Causal,0.666
+Contrastive,1
+Counterfactual ,0.333
+Causal,0.666
+Contrastive,0.666
+Counterfactual ,1
+Causal,0.666
+Contrastive,0.333
+Counterfactual ,1
+Causal,1
+Contrastive,1
+Contrastive,0.666
+Causal,1
+Counterfactual ,0.333
+Contrastive,0.666
+Causal,0.666
+Counterfactual ,0.666
+Causal,0.666
+Contrastive,0
+Counterfactual ,0.333
+Causal,0.333
+Counterfactual ,0.666
+Contrastive,1
+Causal,0.666
+Counterfactual ,0.666
+Contrastive,1
+Contrastive,0.666
+Counterfactual ,0.333
+Causal,1
+Counterfactual ,1
+Causal,1
+Contrastive,0.666
+Causal,0.666
+Contrastive,0.666
+Counterfactual ,0.666
+Causal,1
+Contrastive,0.333
+Counterfactual ,0.666
+Contrastive,1
+Causal,0.666
+Counterfactual ,0.333
+Contrastive,1
+Counterfactual ,0.666
+Causal,0.666
+Causal,0.666
+Counterfactual ,0
+Contrastive,0.333
+Contrastive,1
+Counterfactual ,0.333
+Causal,1
+Contrastive,0.333
+Causal,0.666
+Counterfactual ,1
+Counterfactual ,1
+Contrastive,0.666
+Causal,0.666
+Contrastive,0.666
+Counterfactual ,0.333
+Causal,0.666
+Contrastive,1
+Causal,1
+Counterfactual ,0.666

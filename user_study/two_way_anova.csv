@@ -1,0 +1,64 @@
+Explanation_Style,Scenario,Situation_Awareness
+Counterfactual,A,0.666
+Causal,B,0.666
+Contrastive,C,1
+Counterfactual ,A,0.333
+Causal,B,0.666
+Contrastive,C,0.666
+Counterfactual ,A,1
+Causal,B,0.666
+Contrastive,C,0.333
+Counterfactual ,A,1
+Causal,B,1
+Contrastive,C,1
+Contrastive,A,0.666
+Causal,B,1
+Counterfactual ,C,0.333
+Contrastive,A,0.666
+Causal,B,0.666
+Counterfactual ,C,0.666
+Causal,A,0.666
+Contrastive,B,0
+Counterfactual ,C,0.333
+Causal,A,0.333
+Counterfactual ,B,0.666
+Contrastive,C,1
+Causal,A,0.666
+Counterfactual ,B,0.666
+Contrastive,C,1
+Contrastive,A,0.666
+Counterfactual ,B,0.333
+Causal,C,1
+Counterfactual ,A,1
+Causal,B,1
+Contrastive,C,0.666
+Causal,A,0.666
+Contrastive,B,0.666
+Counterfactual ,C,0.666
+Causal,A,1
+Contrastive,B,0.333
+Counterfactual ,C,0.666
+Contrastive,A,1
+Causal,B,0.666
+Counterfactual ,C,0.333
+Contrastive,A,1
+Counterfactual ,B,0.666
+Causal,C,0.666
+Causal,A,0.666
+Counterfactual ,B,0
+Contrastive,C,0.333
+Contrastive,A,1
+Counterfactual ,B,0.333
+Causal,C,1
+Contrastive,A,0.333
+Causal,B,0.666
+Counterfactual ,C,1
+Counterfactual ,A,1
+Contrastive,B,0.666
+Causal,C,0.666
+Contrastive,A,0.666
+Counterfactual ,B,0.333
+Causal,C,0.666
+Contrastive,A,1
+Causal,B,1
+Counterfactual ,C,0.666
