@@ -1,86 +1,136 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enhancing Situation Awareness through Model-based Explanation Generation</title>
-</head>
-<body>
+# Enhancing Situation Awareness through Model-Based Explanation Generation
 
-<h1>Project Title</h1>
-<p>Brief description of the research project and its goals.</p>
+This repository contains the **source code and dataset** used in the paper:
 
-<h2>Table of Contents</h2>
-<ul>
-    <li><a href="#introduction">Introduction</a></li>
-    <li><a href="#project-structure">Project Structure</a></li>
-    <li><a href="#installation">Installation</a></li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#dataset">Dataset</a></li>
-    <li><a href="#methodology">Methodology</a></li>
-    <li><a href="#results">Results</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
-</ul>
+> **K. Gavriilidis, I. Konstas, H. Hastie, A. Munafo, and W. Pang**  
+> *Enhancing Situation Awareness through Model-Based Explanation Generation*  
+> In *Proceedings of the 2nd Workshop on Practical LLM-assisted Data-to-Text Generation (Practical D2T 2024)*, Tokyo, Japan, pp. 7–16.  
+> [[ACL Anthology Link]](https://aclanthology.org/2024.practicald2t-1.2)
 
-<h2 id="introduction">Introduction</h2>
-<p>Provide a more detailed explanation of the project, its objectives, and the problem it addresses.</p>
+---
 
-<h2 id="project-structure">Project Structure</h2>
-<p>Outline the structure of the repository:</p>
-<pre>
-├── data
-├── src
-├── notebooks
-├── results
-├── README.md
-</pre>
-<p>Describe what each folder contains.</p>
+## Overview
 
-<h2 id="installation">Installation</h2>
-<p>Step-by-step instructions to install dependencies and set up the environment to reproduce the research results.</p>
-<pre><code>
-# Example: clone the repository
-git clone https://github.com/username/research-project.git
-cd research-project
+In Human-In-The-Loop applications, operators require a clear understanding of a robot’s **state, rationale, and projected behaviour** to maintain trust and effectively assist. This repository provides the implementation and resources for evaluating **explanation styles**—causal, counterfactual, and contrastive—using **large language models (LLMs)**.
 
-# Install dependencies (if applicable)
+We introduce **XARLM (eXplainable Autonomous Robot Language Model)**, which transforms vehicle states and user queries into **natural language explanations** to enhance situation awareness.
+
+Key contributions:
+- A **dataset** of 8,051 annotated instances from **maritime autonomous missions**.  
+- Three **fine-tuning tasks** for causal, counterfactual, and contrastive explanations.  
+- Code for **fine-tuning LLMs** (Mistral, LLaMA2, Falcon) on explanation generation.  
+- Evaluation scripts for **automatic metrics** (BLEU, ROUGE, METEOR, Semantic Accuracy/Precision).  
+- Results from **two user studies** on explanation effectiveness and user preferences.  
+
+---
+
+## Contents
+
+```
+├── src/                  # Source code for explanation generation and fine-tuning
+│   ├── data/             # Scripts for data preprocessing and annotation
+│   ├── models/           # Training and inference code for LLM fine-tuning
+│   ├── evaluation/       # Automatic evaluation scripts (BLEU, ROUGE, METEOR, SA/SP)
+│   └── xarlm/            # Implementation of the XARLM framework
+│
+├── data/                 # Dataset for causal, counterfactual, and contrastive explanations
+│   ├── raw/              # Raw MOOS-IvP logs and extracted vehicle states
+│   ├── annotated/        # Annotated dataset (8051 instances, CC-BY licensed)
+│   └── splits/           # Train/validation/test splits
+│
+├── results/              # Fine-tuned model checkpoints and evaluation outputs
+├── examples/             # Example queries and explanation outputs
+└── README.md             # This file
+```
+
+---
+
+## Dataset
+
+The dataset is based on **MOOS-IvP** simulated maritime missions, featuring three scenarios with varying complexity (survey, loiter, multi-vehicle). Each instance contains:
+- **Vehicle states** (objectives, behaviours, headings, obstacles, etc.)  
+- **User queries** (causal, what-if, why-not)  
+- **Explanations** in three styles:  
+  - **Causal** (justification of behaviour)  
+  - **Counterfactual** (what-if reasoning)  
+  - **Contrastive** (why-not reasoning)  
+
+**Statistics:**
+- Total: **8051 instances**  
+- Causal: 1151, Counterfactual: 3450, Contrastive: 3450  
+- Includes **spatial tokens**, state updates, and behaviour permutations  
+
+All data is released under a **Creative Commons Attribution (CC-BY)** license.
+
+---
+
+## Usage
+
+### Requirements
+- Python 3.9+
+- Dependencies: `transformers`, `datasets`, `peft`, `torch`, `scikit-learn`, `numpy`, `pandas`, `matplotlib`
+
+Install requirements with:
+```bash
 pip install -r requirements.txt
-</code></pre>
+```
 
-<h2 id="usage">Usage</h2>
-<p>Explain how to use the code, run the experiments, or analyze the data. Include code snippets or command-line instructions as needed.</p>
-<pre><code>
-# Example: run the main analysis script
-python src/analysis.py --input data/dataset.csv --output results/output.csv
-</code></pre>
+### Training
+Fine-tune a model (e.g., Mistral-7B) on causal explanations:
+```bash
+python src/models/train.py --data data/annotated/causal.json --model mistral-7b --task causal
+```
 
-<h2 id="dataset">Dataset</h2>
-<p>Provide information about the dataset used in the research. Include links, citations, or instructions on how to obtain or access it. If it's a custom dataset, explain its structure and features.</p>
+### Inference
+Generate explanations from a trained model:
+```bash
+python src/xarlm/run_inference.py --model results/mistral_causal --input examples/query.json
+```
 
-<h2 id="methodology">Methodology</h2>
-<p>Describe the methodology used in the research, including the models, algorithms, or experimental techniques. Provide citations or references to any papers, tools, or frameworks used.</p>
+Example input:
+```json
+{
+  "representation": {"deploy": true, "return": false, "heading": "northwest", "active_behaviour": "survey"},
+  "user_query": "Why is the vessel surveying instead of returning?"
+}
+```
 
-<h2 id="results">Results</h2>
-<p>Summarize the findings or results of the research. Include tables, figures, or links to detailed reports or publications. If possible, explain how to reproduce these results.</p>
+Example output:
+➡️ *“The vessel is surveying because its deploy state is active and it has not yet visited all waypoints required for return.”*
 
-<h2 id="contributing">Contributing</h2>
-<p>Guidelines for contributing to the project. If you accept contributions, explain how users can get involved.</p>
-<ol>
-    <li>Fork the repository</li>
-    <li>Create a new branch (<code>git checkout -b feature/your-feature</code>)</li>
-    <li>Commit your changes (<code>git commit -m 'Add feature'</code>)</li>
-    <li>Push to the branch (<code>git push origin feature/your-feature</code>)</li>
-    <li>Open a pull request</li>
-</ol>
+---
 
-<h2 id="license">License</h2>
-<p>Specify the license under which the project is released. For example:</p>
-<pre><code>MIT License</code></pre>
+## Results
 
-<h2 id="acknowledgements">Acknowledgements</h2>
-<p>Thank any contributors, institutions, or organizations that helped with the project. You can also include references to relevant literature or software.</p>
+- **Mistral-7B** achieved the best performance across explanation types.  
+- **Causal explanations** yielded the highest accuracy for decision-making queries.  
+- **Contrastive explanations** were most effective for spatial queries.  
+- **User preference study**: 70% favoured **template-based explanations**, but LLM-generated explanations performed comparably in situational awareness tasks.  
 
-</body>
-</html>
+See `results/` for detailed metrics and user study analysis.
+
+---
+
+## Citation
+
+If you use this repository, please cite our paper:
+
+```bibtex
+@inproceedings{gavriilidis2024enhancing,
+  title={Enhancing Situation Awareness through Model-Based Explanation Generation},
+  author={Gavriilidis, Konstantinos and Konstas, Ioannis and Hastie, Helen and Munafo, Andrea and Pang, Wei},
+  booktitle={Proceedings of the 2nd Workshop on Practical LLM-assisted Data-to-Text Generation},
+  year={2024},
+  pages={7--16},
+  publisher={Association for Computational Linguistics}
+}
+```
+
+---
+
+## Acknowledgements
+
+This work was funded and supported by:  
+- **EPSRC CDT in Robotics and Autonomous Systems (EP/S023208/1)**  
+- **SeeByte Ltd**  
+- **Scottish Research Partnership in Engineering (SRPe)**
