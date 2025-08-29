@@ -5,7 +5,7 @@ This repository contains the **source code and dataset** used in the paper:
 > **K. Gavriilidis, I. Konstas, H. Hastie, A. Munafo, and W. Pang**  
 > *Enhancing Situation Awareness through Model-Based Explanation Generation*  
 > In *Proceedings of the 2nd Workshop on Practical LLM-assisted Data-to-Text Generation (Practical D2T 2024)*, Tokyo, Japan, pp. 7–16.  
-> [[ACL Anthology Link]](https://aclanthology.org/2024.practicald2t-1.2)
+> [[ACL Anthology Link]](https://aclanthology.org/2024.practicald2t-1.2) [[XARLM Datasets]](https://drive.google.com/drive/folders/1F40oo4bp209e96jneQYuVta4wDww7zka?usp=sharing) 
 
 ---
 
@@ -27,19 +27,19 @@ Key contributions:
 ## Contents
 
 ```
-├── src/                  # Source code for explanation generation and fine-tuning
-│   ├── data/             # Scripts for data preprocessing and annotation
-│   ├── models/           # Training and inference code for LLM fine-tuning
-│   ├── evaluation/       # Automatic evaluation scripts (BLEU, ROUGE, METEOR, SA/SP)
-│   └── xarlm/            # Implementation of the XARLM framework
+├── annotation/                  # All modules for data annotation are included here
+│   ├── auxiliary/             # Annotation of MOOS-IvP initial datasets
+│   ├── llm_annotation/           # Annotation of datasets with OpenAI API
 │
-├── data/                 # Dataset for causal, counterfactual, and contrastive explanations
-│   ├── raw/              # Raw MOOS-IvP logs and extracted vehicle states
-│   ├── annotated/        # Annotated dataset (8051 instances, CC-BY licensed)
-│   └── splits/           # Train/validation/test splits
+├── model/                 # All of the modules for fine-tuning, inference and evaluation are included here
+│   ├── ablation/              # Modules used for ablation study
+│   └── finetuning/           # Folder with finetuning modules of LLMs 
+│   ├── inference/        # Folder with modules used for inference
+│   └── metrics/           # Defined metrics to measure semantic accuracy
 │
-├── results/              # Fine-tuned model checkpoints and evaluation outputs
-├── examples/             # Example queries and explanation outputs
+├── parser/             # Modules for extracting features from MOOS-IvP logs
+├── user_study/             # Resources and webpage materials used in user study 
+├── util_modules/             # Additional modules used across the whole project
 └── README.md             # This file
 ```
 
