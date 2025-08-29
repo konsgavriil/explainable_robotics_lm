@@ -40,7 +40,8 @@ Key contributions:
 ├── parser/             # Modules for extracting features from MOOS-IvP logs
 ├── user_study/             # Resources and webpage materials used in user study 
 ├── util_modules/             # Additional modules used across the whole project
-└── README.md             # This file
+├── README.md             # This file
+└── environment.yml       # Conda environment file with dependencies 
 ```
 
 ---
@@ -67,38 +68,11 @@ All data is released under a **Creative Commons Attribution (CC-BY)** license.
 ## Usage
 
 ### Requirements
-- Python 3.9+
-- Dependencies: `transformers`, `datasets`, `peft`, `torch`, `scikit-learn`, `numpy`, `pandas`, `matplotlib`
 
 Install requirements with:
 ```bash
-pip install -r requirements.txt
+conda env create -f environment.yml
 ```
-
-### Training
-Fine-tune a model (e.g., Mistral-7B) on causal explanations:
-```bash
-python src/models/train.py --data data/annotated/causal.json --model mistral-7b --task causal
-```
-
-### Inference
-Generate explanations from a trained model:
-```bash
-python src/xarlm/run_inference.py --model results/mistral_causal --input examples/query.json
-```
-
-Example input:
-```json
-{
-  "representation": {"deploy": true, "return": false, "heading": "northwest", "active_behaviour": "survey"},
-  "user_query": "Why is the vessel surveying instead of returning?"
-}
-```
-
-Example output:
-➡️ *“The vessel is surveying because its deploy state is active and it has not yet visited all waypoints required for return.”*
-
----
 
 ## Results
 
