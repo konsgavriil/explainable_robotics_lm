@@ -81,8 +81,6 @@ conda env create -f environment.yml
 - **Contrastive explanations** were most effective for spatial queries.  
 - **User preference study**: 70% favoured **template-based explanations**, but LLM-generated explanations performed comparably in situational awareness tasks.  
 
-See `results/` for detailed metrics and user study analysis.
-
 ---
 
 ## Citation
